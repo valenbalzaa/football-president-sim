@@ -1,5 +1,13 @@
 import { useState } from "react";
 
+type Props = {
+  onStart: (
+    mode:string,
+    club:string,
+    money:number
+  )=>void;
+};
+
 const modes = [
   {
     id: "president",
@@ -15,7 +23,7 @@ const modes = [
 
 import { clubs } from "../data/clubs";
 
-export default function NewGame() {
+export default function NewGame({onStart}:Props) {
 
   const [selectedMode, setSelectedMode] = useState("");
   const [selectedClub, setSelectedClub] = useState("");
@@ -132,7 +140,23 @@ export default function NewGame() {
 
 
       <button
+
         disabled={!selectedMode || !selectedClub}
+
+        onClick={()=>{
+
+        const clubData = clubs.find(
+        c=>c.name===selectedClub
+        );
+
+        onStart(
+        selectedMode,
+        selectedClub,
+        clubData?.budget || 0
+        );
+
+        }}
+
         className="
           fixed
           bottom-5
