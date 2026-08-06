@@ -1,6 +1,7 @@
 import type { Player } from "../types/player";
 import type { GameEvent } from "../types/event";
 import type { Club } from "../data/clubs";
+import type { Standing } from "../types/standing";
 
 export type GameState = {
     
