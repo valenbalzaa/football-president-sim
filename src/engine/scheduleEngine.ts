@@ -1,91 +1,93 @@
-import type { Club } from "../data/clubs";
-
-
-export type Match = {
-
-  id: number;
-
-  home: string;
-
-  away: string;
-
-  played: boolean;
-
-};
-
-
+import type { Match } from "../types/match";
 
 export function generateSchedule(
-
-  teams: Club[]
-
+  teams: string[]
 ): Match[] {
 
+  const schedule: Match[] = [];
 
-  const matches: Match[] = [];
+  let clubList = [...teams];
 
-  let id = 1;
+  // Si la cantidad es impar agregamos un descanso
+  if (clubList.length % 2 !== 0) {
+    clubList.push("DESCANSA");
+  }
 
+  const totalTeams = clubList.length;
+  const rounds = totalTeams - 1;
+  const matchesPerRound = totalTeams / 2;
 
-  for (
-    let round = 0;
-    round < teams.length - 1;
-    round++
-  ) {
+  let matchId = 1;
 
+  const rotation = [...clubList];
 
-    for (
-      let i = 0;
-      i < teams.length / 2;
-      i++
-    ) {
+  // ==========
+  // PRIMERA RUEDA
+  // ==========
 
+  for (let round = 0; round < rounds; round++) {
 
-      const home =
-        teams[i];
+    for (let i = 0; i < matchesPerRound; i++) {
 
+      const home = rotation[i];
+      const away = rotation[totalTeams - 1 - i];
 
-      const away =
-        teams[
-          teams.length - 1 - i
-        ];
+      if (home !== "DESCANSA" && away !== "DESCANSA") {
 
+        schedule.push({
 
+          id: matchId++,
 
-      matches.push({
+          matchday: round + 1,
 
-        id,
+          home,
 
-        home: home.name,
+          away,
 
-        away: away.name,
+          played: false
 
-        played: false
+        });
 
-      });
-
-
-      id++;
+      }
 
     }
 
+    // Rotación (Round Robin)
 
+    const fixed = rotation[0];
 
-    // rotación de equipos
+    const rest = rotation.slice(1);
 
-    teams = [
+    rest.unshift(rest.pop()!);
 
-      teams[0],
-
-      ...teams.slice(2),
-
-      teams[1]
-
-    ];
+    rotation.splice(0, rotation.length, fixed, ...rest);
 
   }
 
+  // ==========
+  // SEGUNDA RUEDA
+  // ==========
 
-  return matches;
+  const firstRound = [...schedule];
+
+  firstRound.forEach(match => {
+
+    schedule.push({
+
+      id: matchId++,
+
+      matchday: match.matchday + rounds,
+
+      home: match.away,
+
+      away: match.home,
+
+      played: false
+
+    });
+
+  });
+
+  return schedule;
 
 }
