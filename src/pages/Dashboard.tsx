@@ -47,14 +47,11 @@ export default function Dashboard({
 
     match =>
 
-      match.matchday === game.matchday &&
+      !match.played &&
 
       (
-
         match.home === game.club ||
-
         match.away === game.club
-
       )
 
   );
@@ -463,20 +460,27 @@ nextMatch.home === game.club
 
 onClick={handlePlayMatch}
 
+disabled={!nextMatch}
+
 className="
 mt-5
 w-full
 bg-blue-600
 hover:bg-blue-700
+disabled:bg-zinc-700
 rounded-xl
 py-3
 font-bold
 "
 
 >
-
-JUGAR PARTIDO
-
+{
+nextMatch
+?
+"JUGAR PARTIDO"
+:
+"TEMPORADA FINALIZADA"
+}
 </button>
 
 

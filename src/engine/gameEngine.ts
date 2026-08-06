@@ -149,42 +149,25 @@ export function playMatch(
 
 
   const updatedSchedule =
-
     game.schedule.map(match => {
 
-
       if(
-
         match.matchday === game.matchday &&
-
+        !match.played &&
         (
-
           match.home === game.club ||
-
           match.away === game.club
-
         )
-
       ){
 
-
         return {
-
-
           ...match,
-
-
           played:true
-
-
         };
-
 
       }
 
-
       return match;
-
 
     });
 
@@ -195,7 +178,6 @@ export function playMatch(
 
 
   const randomEvent = getRandomEvent();
-
 
 
 
