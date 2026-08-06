@@ -86,12 +86,24 @@ export default function Dashboard({
 
 
 
-
+  
+  const nextMatch = game.schedule.find(
+    match =>
+      match.matchday === game.matchday &&
+      (
+        match.home === game.club ||
+        match.away === game.club
+      )
+  );
+  
   const nextOpponent =
-    clubs.find(
-      club =>
-        club.name !== game.club
-    );
+    nextMatch
+      ? (
+          nextMatch.home === game.club
+            ? nextMatch.away
+            : nextMatch.home
+        )
+      : "Sin rival";
 
 
 
@@ -418,26 +430,20 @@ export default function Dashboard({
 
 
 
-        <p className="
-          text-lg
-        ">
-
-
-          {game.club}
-
-
-          <span className="mx-2">
-            vs
-          </span>
-
-
-
-          {
-            nextOpponent?.name
-          }
-
-
-
+        <h2 className="text-xl font-bold mb-3">
+          ⚽ Próximo partido
+        </h2>
+        
+        <p className="text-lg font-semibold">
+          {nextMatch?.home}
+          <span className="mx-2 text-zinc-400">vs</span>
+          {nextMatch?.away}
+        </p>
+        
+        <p className="mt-2 text-sm text-zinc-400">
+          {nextMatch?.home === game.club
+            ? "🏠 Juegas de local"
+            : "✈️ Juegas de visitante"}
         </p>
 
 
