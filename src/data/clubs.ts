@@ -1,15 +1,12 @@
 export type Club = {
-
   id: number;
 
   name: string;
-
   shortName: string;
 
   division: string;
 
   city: string;
-
   stadium: string;
 
   reputation: number;
@@ -18,17 +15,24 @@ export type Club = {
 
   budget: number;
 
+  fans: number;
+
+  youthLevel: number;
+
+  facilities: number;
+
+  finances: number;
+
+  objective:
+    | "Ascender"
+    | "Playoffs"
+    | "Media tabla"
+    | "Salvarse";
 };
 
 
 
 export const clubs: Club[] = [
-
-  // ======================
-  // PRIMERA DIVISIONAL C
-  // TERCERA CATEGORÍA URUGUAYA
-  // ======================
-
 
   {
     id: 1,
@@ -37,11 +41,15 @@ export const clubs: Club[] = [
     division: "Primera Divisional C",
     city: "Montevideo",
     stadium: "Parque José Nasazzi",
-    reputation: 35,
-    strength: 62,
-    budget: 300000
+    reputation: 40,
+    strength: 66,
+    budget: 350000,
+    fans: 9000,
+    youthLevel: 70,
+    facilities: 68,
+    finances: 70,
+    objective: "Ascender"
   },
-
 
   {
     id: 2,
@@ -50,11 +58,15 @@ export const clubs: Club[] = [
     division: "Primera Divisional C",
     city: "Montevideo",
     stadium: "Parque Palermo",
-    reputation: 25,
-    strength: 58,
-    budget: 180000
+    reputation: 30,
+    strength: 60,
+    budget: 200000,
+    fans: 4500,
+    youthLevel: 58,
+    facilities: 55,
+    finances: 55,
+    objective: "Playoffs"
   },
-
 
   {
     id: 3,
@@ -63,11 +75,15 @@ export const clubs: Club[] = [
     division: "Primera Divisional C",
     city: "Montevideo",
     stadium: "Parque Huracán",
-    reputation: 30,
-    strength: 60,
-    budget: 220000
+    reputation: 34,
+    strength: 63,
+    budget: 240000,
+    fans: 5200,
+    youthLevel: 63,
+    facilities: 60,
+    finances: 60,
+    objective: "Playoffs"
   },
-
 
   {
     id: 4,
@@ -75,25 +91,33 @@ export const clubs: Club[] = [
     shortName: "POT",
     division: "Primera Divisional C",
     city: "Montevideo",
-    stadium: "Estadio Potencia",
-    reputation: 20,
-    strength: 55,
-    budget: 150000
+    stadium: "Parque Potencia",
+    reputation: 24,
+    strength: 57,
+    budget: 170000,
+    fans: 2600,
+    youthLevel: 52,
+    facilities: 50,
+    finances: 48,
+    objective: "Media tabla"
   },
-
 
   {
     id: 5,
     name: "Deportivo Italiano",
-    shortName: "DEU",
+    shortName: "DIT",
     division: "Primera Divisional C",
     city: "Montevideo",
     stadium: "Complejo Deportivo Italiano",
-    reputation: 20,
-    strength: 54,
-    budget: 160000
+    reputation: 24,
+    strength: 56,
+    budget: 170000,
+    fans: 2400,
+    youthLevel: 55,
+    facilities: 52,
+    finances: 50,
+    objective: "Media tabla"
   },
-
 
   {
     id: 6,
@@ -102,11 +126,15 @@ export const clubs: Club[] = [
     division: "Primera Divisional C",
     city: "Montevideo",
     stadium: "Parque Platense",
-    reputation: 22,
-    strength: 56,
-    budget: 170000
+    reputation: 26,
+    strength: 58,
+    budget: 180000,
+    fans: 3000,
+    youthLevel: 57,
+    facilities: 55,
+    finances: 55,
+    objective: "Media tabla"
   },
-
 
   {
     id: 7,
@@ -115,11 +143,15 @@ export const clubs: Club[] = [
     division: "Primera Divisional C",
     city: "Montevideo",
     stadium: "Parque Salus",
-    reputation: 18,
-    strength: 52,
-    budget: 130000
+    reputation: 20,
+    strength: 54,
+    budget: 140000,
+    fans: 1800,
+    youthLevel: 48,
+    facilities: 46,
+    finances: 45,
+    objective: "Salvarse"
   },
-
 
   {
     id: 8,
@@ -128,11 +160,15 @@ export const clubs: Club[] = [
     division: "Primera Divisional C",
     city: "Montevideo",
     stadium: "Estadio José Nasazzi",
-    reputation: 28,
-    strength: 59,
-    budget: 210000
+    reputation: 32,
+    strength: 62,
+    budget: 230000,
+    fans: 6000,
+    youthLevel: 62,
+    facilities: 60,
+    finances: 60,
+    objective: "Playoffs"
   },
-
 
   {
     id: 9,
@@ -141,11 +177,15 @@ export const clubs: Club[] = [
     division: "Primera Divisional C",
     city: "Montevideo",
     stadium: "Estadio Obdulio Varela",
-    reputation: 35,
-    strength: 63,
-    budget: 280000
+    reputation: 42,
+    strength: 67,
+    budget: 320000,
+    fans: 10000,
+    youthLevel: 72,
+    facilities: 70,
+    finances: 72,
+    objective: "Ascender"
   },
-
 
   {
     id: 10,
@@ -154,11 +194,15 @@ export const clubs: Club[] = [
     division: "Primera Divisional C",
     city: "Montevideo",
     stadium: "Parque Palermo",
-    reputation: 18,
-    strength: 53,
-    budget: 120000
+    reputation: 20,
+    strength: 54,
+    budget: 130000,
+    fans: 1700,
+    youthLevel: 47,
+    facilities: 45,
+    finances: 42,
+    objective: "Salvarse"
   },
-
 
   {
     id: 11,
@@ -166,12 +210,16 @@ export const clubs: Club[] = [
     shortName: "COP",
     division: "Primera Divisional C",
     city: "Montevideo",
-    stadium: "Estadio Cooper",
-    reputation: 15,
-    strength: 50,
-    budget: 100000
+    stadium: "Parque Cooper",
+    reputation: 18,
+    strength: 52,
+    budget: 120000,
+    fans: 1500,
+    youthLevel: 45,
+    facilities: 44,
+    finances: 40,
+    objective: "Salvarse"
   },
-
 
   {
     id: 12,
@@ -180,11 +228,15 @@ export const clubs: Club[] = [
     division: "Primera Divisional C",
     city: "Montevideo",
     stadium: "Parque Lito",
-    reputation: 15,
-    strength: 50,
-    budget: 100000
+    reputation: 18,
+    strength: 52,
+    budget: 120000,
+    fans: 1400,
+    youthLevel: 46,
+    facilities: 45,
+    finances: 42,
+    objective: "Salvarse"
   },
-
 
   {
     id: 13,
@@ -193,11 +245,15 @@ export const clubs: Club[] = [
     division: "Primera Divisional C",
     city: "Montevideo",
     stadium: "Parque Mar de Fondo",
-    reputation: 18,
-    strength: 52,
-    budget: 130000
+    reputation: 21,
+    strength: 55,
+    budget: 145000,
+    fans: 2000,
+    youthLevel: 50,
+    facilities: 48,
+    finances: 45,
+    objective: "Media tabla"
   },
-
 
   {
     id: 14,
@@ -206,11 +262,15 @@ export const clubs: Club[] = [
     division: "Primera Divisional C",
     city: "Montevideo",
     stadium: "Parque Alto Perú",
-    reputation: 15,
-    strength: 49,
-    budget: 90000
+    reputation: 17,
+    strength: 50,
+    budget: 100000,
+    fans: 1200,
+    youthLevel: 42,
+    facilities: 40,
+    finances: 38,
+    objective: "Salvarse"
   },
-
 
   {
     id: 15,
@@ -218,10 +278,15 @@ export const clubs: Club[] = [
     shortName: "TER",
     division: "Primera Divisional C",
     city: "Montevideo",
-    stadium: "Estadio Terremoto",
-    reputation: 12,
+    stadium: "Parque Terremoto",
+    reputation: 15,
     strength: 48,
-    budget: 80000
+    budget: 90000,
+    fans: 900,
+    youthLevel: 40,
+    facilities: 38,
+    finances: 35,
+    objective: "Salvarse"
   }
 
 ];
