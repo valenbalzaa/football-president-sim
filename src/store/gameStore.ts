@@ -3,11 +3,12 @@ import type { GameEvent } from "../types/event";
 import type { Club } from "../data/clubs";
 import type { Standing } from "../types/standing";
 import type { Match } from "../types/match";
+import type { TableRow } from "../types/table";
 
 export type GameState = {
     
 
-
+  table: TableRow[];
   // ======================
   // CLUB CREADO
   // ======================
@@ -117,7 +118,7 @@ export type GameState = {
 
 export const initialGameState: GameState = {
 
-
+  table: [],
   // ======================
   // CLUB
   // ======================
