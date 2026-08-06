@@ -1,55 +1,93 @@
 import type { Match } from "../types/match";
 
-
 export function generateSchedule(
-  teams:string[]
-):Match[]{
+  teams: string[]
+): Match[] {
 
+  const schedule: Match[] = [];
 
-const matches:Match[] = [];
+  let clubList = [...teams];
 
-let id = 1;
+  // Si la cantidad es impar agregamos un descanso
+  if (clubList.length % 2 !== 0) {
+    clubList.push("DESCANSA");
+  }
 
+  const totalTeams = clubList.length;
+  const rounds = totalTeams - 1;
+  const matchesPerRound = totalTeams / 2;
 
-for(
-let i=0;
-i<teams.length;
-i++
-){
+  let matchId = 1;
 
-for(
-let j=i+1;
-j<teams.length;
-j++
-){
+  const rotation = [...clubList];
 
+  // ==========
+  // PRIMERA RUEDA
+  // ==========
 
-matches.push({
+  for (let round = 0; round < rounds; round++) {
 
-id:id++,
+    for (let i = 0; i < matchesPerRound; i++) {
 
-matchday:
-Math.floor(
-matches.length / 8
-)+1,
+      const home = rotation[i];
+      const away = rotation[totalTeams - 1 - i];
 
+      if (home !== "DESCANSA" && away !== "DESCANSA") {
 
-home:teams[i],
+        schedule.push({
 
-away:teams[j],
+          id: matchId++,
 
-played:false
+          matchday: round + 1,
 
+          home,
 
-});
+          away,
 
+          played: false
 
-}
+        });
 
-}
+      }
 
+    }
 
-return matches;
+    // Rotación (Round Robin)
 
+    const fixed = rotation[0];
+
+    const rest = rotation.slice(1);
+
+    rest.unshift(rest.pop()!);
+
+    rotation.splice(0, rotation.length, fixed, ...rest);
+
+  }
+
+  // ==========
+  // SEGUNDA RUEDA
+  // ==========
+
+  const firstRound = [...schedule];
+
+  firstRound.forEach(match => {
+
+    schedule.push({
+
+      id: matchId++,
+
+      matchday: match.matchday + rounds,
+
+      home: match.away,
+
+      away: match.home,
+
+      played: false
+
+    });
+
+  });
+
+  return schedule;
 
 }
