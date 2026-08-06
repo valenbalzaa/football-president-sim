@@ -1,91 +1,55 @@
-import type { Club } from "../data/clubs";
-
-
-export type Match = {
-
-  id: number;
-
-  home: string;
-
-  away: string;
-
-  played: boolean;
-
-};
-
+import type { Match } from "../types/match";
 
 
 export function generateSchedule(
-
-  teams: Club[]
-
-): Match[] {
+  teams:string[]
+):Match[]{
 
 
-  const matches: Match[] = [];
+const matches:Match[] = [];
 
-  let id = 1;
-
-
-  for (
-    let round = 0;
-    round < teams.length - 1;
-    round++
-  ) {
+let id = 1;
 
 
-    for (
-      let i = 0;
-      i < teams.length / 2;
-      i++
-    ) {
+for(
+let i=0;
+i<teams.length;
+i++
+){
+
+for(
+let j=i+1;
+j<teams.length;
+j++
+){
 
 
-      const home =
-        teams[i];
+matches.push({
+
+id:id++,
+
+matchday:
+Math.floor(
+matches.length / 8
+)+1,
 
 
-      const away =
-        teams[
-          teams.length - 1 - i
-        ];
+home:teams[i],
+
+away:teams[j],
+
+played:false
 
 
-
-      matches.push({
-
-        id,
-
-        home: home.name,
-
-        away: away.name,
-
-        played: false
-
-      });
+});
 
 
-      id++;
+}
 
-    }
-
-
-
-    // rotación de equipos
-
-    teams = [
-
-      teams[0],
-
-      ...teams.slice(2),
-
-      teams[1]
-
-    ];
-
-  }
+}
 
 
-  return matches;
+return matches;
+
 
 }
