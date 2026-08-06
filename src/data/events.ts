@@ -29,103 +29,82 @@ export type GameEvent = {
 };
 
 export const events: GameEvent[] = [
+  {
+    id: "sponsor1",
 
-{
-id:"sponsor1",
+    category: "sponsor",
 
-category:"sponsor",
+    title: "Nuevo patrocinador",
 
-title:"Nuevo patrocinador",
+    description: "Una empresa local quiere patrocinar al club.",
 
-description:
-"Una empresa local quiere patrocinar al club.",
+    options: [
+      {
+        text: "Aceptar",
 
-options:[
+        effects: {
+          money: 60000,
+          reputation: -2,
+        },
+      },
 
-{
-text:"Aceptar",
+      {
+        text: "Rechazar",
 
-effects:{
-money:60000,
-reputation:-2
-}
-},
+        effects: {
+          reputation: 4,
+        },
+      },
+    ],
+  },
 
-{
-text:"Rechazar",
+  {
+    id: "locker1",
 
-effects:{
-reputation:4
-}
-}
+    category: "lockerRoom",
 
-]
+    title: "Jugador molesto",
 
-},
+    description: "Un suplente reclama más minutos.",
 
-{
+    options: [
+      {
+        text: "Prometer minutos",
 
-id:"locker1",
+        effects: {
+          morale: 5,
+        },
+      },
 
-category:"lockerRoom",
+      {
+        text: "Ignorarlo",
 
-title:"Jugador molesto",
+        effects: {
+          morale: -6,
+        },
+      },
+    ],
+  },
 
-description:
-"Un suplente reclama más minutos.",
+  {
+    id: "fans1",
 
-options:[
+    category: "fans",
 
-{
+    title: "Los hinchas felicitan al equipo",
 
-text:"Prometer minutos",
+    description:
+      "La afición respondió muy bien después de la última victoria.",
 
-effects:{
-morale:5
-}
+    options: [
+      {
+        text: "Agradecer",
 
-},
-
-{
-
-text:"Ignorarlo",
-
-effects:{
-morale:-6
-}
-
-}
-
-]
-
-},
-
-{
-
-id:"fans1",
-
-category:"fans",
-
-title:"Los hinchas felicitan al equipo",
-
-description:
-"La afición respondió muy bien después de la última victoria.",
-
-options:[
-
-{
-
-text:"Agradecer",
-
-effects:{
-fans:80,
-reputation:2
-}
-
-}
-
-]
-
-}
-
+        effects: {
+          fans: 80,
+          reputation: 2,
+        },
+      },
+    ],
+  },
 ];
