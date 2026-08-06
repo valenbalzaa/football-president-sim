@@ -2,6 +2,11 @@ import type { GameState } from "../store/gameStore";
 import type { Club } from "../data/clubs";
 
 import {
+  clubs
+} from "../data/clubs";
+
+
+import {
   simulateMatch
 } from "./matchEngine";
 
@@ -13,56 +18,163 @@ export function playMatch(
 
   game: GameState,
 
-  opponent: Club
+  opponentName: string
 
 ): GameState {
 
 
 
+  // Buscar rival real
+
+  const opponent = clubs.find(
+
+    club =>
+      club.name === opponentName
+
+  );
+
+
+
+  if(!opponent){
+
+    console.error(
+      "No se encontró rival:",
+      opponentName
+    );
+
+    return game;
+
+  }
+
+
+
+
+
+  // Crear nuestro club
+
   const userClub: Club = {
 
-    id: 999,
 
-    name: game.club,
+    id:999,
 
-    shortName: game.club
+
+    name:game.club,
+
+
+    shortName:
+      game.club
       .substring(0,3)
       .toUpperCase(),
 
-    division: game.division,
 
-    city: "Montevideo",
+    division:
+      game.division,
 
-    stadium: game.stadium,
 
-    reputation: game.reputation,
+    city:"Montevideo",
 
-    strength: calculateTeamStrength(game),
 
-    budget: game.money
+    stadium:
+      game.stadium,
+
+
+    reputation:
+      game.reputation,
+
+
+    strength:
+      calculateTeamStrength(game),
+
+
+    budget:
+      game.money
+
 
   };
 
 
 
 
-  const result =
-    simulateMatch(
-      userClub,
-      opponent
-    );
+
+
+
+  // Simular partido
+
+  const result = simulateMatch(
+
+    userClub,
+
+    opponent
+
+  );
 
 
 
 
 
-  const updatedGame = {
+
+
+
+  // Actualizar calendario
+
+  const updatedSchedule =
+
+    game.schedule.map(match => {
+
+
+      if(
+
+        match.matchday === game.matchday &&
+
+        (
+
+          match.home === game.club ||
+
+          match.away === game.club
+
+        )
+
+      ){
+
+        return {
+
+          ...match,
+
+          played:true
+
+        };
+
+      }
+
+
+      return match;
+
+
+    });
+
+
+
+
+
+
+
+
+
+  const updatedGame: GameState = {
+
 
     ...game,
 
 
+
+    schedule:
+      updatedSchedule,
+
+
+
     matchday:
       game.matchday + 1,
+
 
 
     points:
@@ -70,35 +182,72 @@ export function playMatch(
       result.pointsHome,
 
 
+
     wins:
       game.wins +
-      (result.pointsHome === 3 ? 1 : 0),
+      (
+        result.pointsHome === 3
+        ? 1
+        : 0
+      ),
+
 
 
     draws:
       game.draws +
-      (result.pointsHome === 1 ? 1 : 0),
+      (
+        result.pointsHome === 1
+        ? 1
+        : 0
+      ),
+
 
 
     losses:
       game.losses +
-      (result.pointsAway === 3 ? 1 : 0),
+      (
+        result.pointsAway === 3
+        ? 1
+        : 0
+      ),
+
+
+
+
+
+
+    money:
+
+      game.money +
+
+      15000,
+
+
+
 
 
 
     news:[
+
       ...game.news,
 
+
       `${game.club} ${result.homeGoals}-${result.awayGoals} ${opponent.name}`
+
     ]
+
 
   };
 
 
 
+
   return updatedGame;
 
+
 }
+
+
 
 
 
@@ -120,20 +269,28 @@ function calculateTeamStrength(
   }
 
 
+
   const total =
+
     game.squad.reduce(
 
       (sum,player)=>
+
         sum + player.overall,
+
 
       0
 
     );
 
 
+
   return Math.floor(
+
     total /
+
     game.squad.length
+
   );
 
 

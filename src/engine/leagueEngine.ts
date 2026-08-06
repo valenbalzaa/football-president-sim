@@ -1,88 +1,147 @@
-import { clubs } from "../data/clubs";
 import type { Club } from "../data/clubs";
+import type { Match } from "../store/gameStore";
 
 
 
-/**
- * Devuelve todos los clubes de una división
- */
-export function getLeagueClubs(
-  division: string
-): Club[] {
+export function generateLeagueSchedule(
+
+  teams: Club[]
+
+): Match[] {
 
 
-  return clubs.filter(
-    club => club.division === division
-  );
-
-}
+  const matches: Match[] = [];
 
 
-
-/**
- * Devuelve solamente los nombres
- * de los equipos de una división
- */
-export function getLeagueTeams(
-  division: string
-): string[] {
+  let id = 1;
 
 
-  return getLeagueClubs(division)
-    .map(
-      club => club.name
+  let matchday = 1;
+
+
+
+  const totalTeams = teams.length;
+
+
+
+  const rounds = totalTeams - 1;
+
+
+
+  const matchesPerRound = totalTeams / 2;
+
+
+
+  let rotation = [...teams];
+
+
+
+
+
+  // ======================
+  // PRIMERA RUEDA
+  // ======================
+
+
+  for(let round = 0; round < rounds; round++){
+
+
+
+    for(
+      let i = 0;
+      i < matchesPerRound;
+      i++
+    ){
+
+
+      const home = rotation[i];
+
+      const away =
+        rotation[
+          totalTeams - 1 - i
+        ];
+
+
+
+      matches.push({
+
+        id:id++,
+
+        matchday,
+
+        home:home.name,
+
+        away:away.name,
+
+        played:false
+
+      });
+
+
+    }
+
+
+
+    rotation.splice(
+
+      1,
+
+      0,
+
+      rotation.pop()!
+
     );
 
-}
+
+
+    matchday++;
+
+
+  }
 
 
 
-/**
- * Agrega un club creado por el usuario
- * a la competición
- */
-export function addCustomClubToLeague(
-
-  customClubName: string,
-
-  division: string
-
-): Club[] {
-
-
-  const customClub: Club = {
-
-    id: 999,
-
-    name: customClubName,
-
-    shortName:
-      customClubName
-        .substring(0,3)
-        .toUpperCase(),
-
-    division,
-
-    city: "Montevideo",
-
-    stadium: "Estadio propio",
-
-    reputation: 10,
-
-    strength: 50,
-
-    budget: 500000
-
-  };
 
 
 
-  return [
+  // ======================
+  // SEGUNDA RUEDA
+  // ======================
 
-    ...getLeagueClubs(division),
 
-    customClub
+  const firstRound = [...matches];
 
-  ];
+
+
+  firstRound.forEach(match => {
+
+
+    matches.push({
+
+      id:id++,
+
+      matchday,
+
+      home:match.away,
+
+      away:match.home,
+
+      played:false
+
+    });
+
+
+
+    matchday++;
+
+
+  });
+
+
+
+
+
+  return matches;
+
 
 }

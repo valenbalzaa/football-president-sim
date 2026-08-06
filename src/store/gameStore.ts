@@ -2,8 +2,27 @@ import type { Player } from "../types/player";
 import type { GameEvent } from "../types/event";
 import type { Club } from "../data/clubs";
 
+
+
+export type Match = {
+
+  id: number;
+
+  matchday: number;
+
+  home: string;
+
+  away: string;
+
+  played: boolean;
+
+};
+
+
+
+
+
 export type GameState = {
-    
 
 
   // ======================
@@ -44,7 +63,13 @@ export type GameState = {
 
   divisionLevel: number;
 
-  leagueTeams:Club[];
+
+  leagueTeams: Club[];
+
+
+  schedule: Match[];
+
+
   matchday: number;
 
 
@@ -104,8 +129,11 @@ export type GameState = {
   news: string[];
 
   activeEvent: GameEvent | null;
-    
+
+
 };
+
+
 
 
 
@@ -114,9 +142,8 @@ export type GameState = {
 export const initialGameState: GameState = {
 
 
-  // ======================
+
   // CLUB
-  // ======================
 
   mode: "",
 
@@ -130,9 +157,7 @@ export const initialGameState: GameState = {
 
 
 
-  // ======================
   // CAMISETA
-  // ======================
 
   kitId: 1,
 
@@ -142,9 +167,8 @@ export const initialGameState: GameState = {
 
 
 
-  // ======================
+
   // TEMPORADA
-  // ======================
 
   season: 2026,
 
@@ -152,15 +176,20 @@ export const initialGameState: GameState = {
 
   divisionLevel: 3,
 
+
   leagueTeams: [],
+
+
+  schedule: [],
+
 
   matchday: 1,
 
 
 
-  // ======================
+
+
   // ECONOMÍA
-  // ======================
 
   money: 500000,
 
@@ -170,9 +199,9 @@ export const initialGameState: GameState = {
 
 
 
-  // ======================
+
+
   // COMPETICIÓN
-  // ======================
 
   points: 0,
 
@@ -186,9 +215,9 @@ export const initialGameState: GameState = {
 
 
 
-  // ======================
-  // ESTADO DEL CLUB
-  // ======================
+
+
+  // CLUB
 
   reputation: 10,
 
@@ -198,20 +227,21 @@ export const initialGameState: GameState = {
 
 
 
-  // ======================
+
+
   // PLANTEL
-  // ======================
 
   squad: [],
 
 
 
-  // ======================
+
+
   // EVENTOS
-  // ======================
 
   news: [],
 
   activeEvent: null
+
 
 };

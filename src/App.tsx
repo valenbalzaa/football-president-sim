@@ -3,10 +3,17 @@ import { useState } from "react";
 import Home from "./pages/Home";
 import NewGame from "./pages/NewGame";
 import Dashboard from "./pages/Dashboard";
+
+
 import {
-  getLeagueClubs,
-  addCustomClubToLeague
+  generateLeagueSchedule
 } from "./engine/leagueEngine";
+
+
+import {
+  clubs
+} from "./data/clubs";
+
 
 import {
   initialGameState,
@@ -15,151 +22,203 @@ import {
 
 
 
+
+
 function App() {
 
 
-  const [page, setPage] = useState("home");
+  const [page,setPage] = useState("home");
 
 
-  const [game, setGame] = useState<GameState>(
+  const [game,setGame] = useState<GameState>(
     initialGameState
   );
 
 
 
+
+
+
+
   function startGame(
 
-    mode: string,
+    mode:string,
 
-    club: string,
+    club:string,
 
-    money: number,
+    money:number,
 
-    stadium: string = "",
+    stadium:string = "",
 
-    rival: string = "",
+    rival:string = "",
 
-    customClub: boolean = false,
+    customClub:boolean = false,
 
-    kitId: number = 1,
+    kitId:number = 1,
 
-    primaryColor: string = "#2563EB",
+    primaryColor:string = "#2563EB",
 
-    secondaryColor: string = "#FFFFFF"
+    secondaryColor:string = "#FFFFFF"
 
-  ) {
-
-
-
-setGame({
-
-  // ======================
-  // CLUB
-  // ======================
-
-  mode,
-
-  club,
-
-  stadium,
-
-  rival,
-
-  customClub,
+  ){
 
 
-  // ======================
-  // CAMISETA
-  // ======================
 
-  kitId,
+    const leagueTeams = customClub
 
-  primaryColor,
+      ? [
 
-  secondaryColor,
+          ...clubs,
+
+          {
+
+            id:999,
+
+            name:club,
+
+            shortName:
+              club
+              .substring(0,3)
+              .toUpperCase(),
+
+            division:
+              "Primera Divisional C",
+
+            city:"Montevideo",
+
+            stadium,
+
+            reputation:10,
+
+            strength:50,
+
+            budget:money
+
+          }
+
+        ]
+
+      : clubs;
 
 
-  // ======================
-  // TEMPORADA
-  // ======================
 
-  season: 2026,
 
-  division: "Primera Divisional C",
 
-  divisionLevel: 3,
 
-  matchday: 1,
+    setGame({
 
-  leagueTeams: customClub
 
-  ? addCustomClubToLeague(
+      mode,
+
+
       club,
-      "Primera Divisional C"
-    )
 
-  : getLeagueClubs(
-      "Primera Divisional C"
-    ),
-  // ======================
-  // ECONOMÍA
-  // ======================
 
-  money,
+      stadium,
 
-  income: 0,
 
-  expenses: 0,
+      rival,
+
+
+      customClub,
 
 
 
-  // ======================
-  // COMPETICIÓN
-  // ======================
+      kitId,
 
-  points: 0,
 
-  position: 16,
+      primaryColor,
 
-  wins: 0,
 
-  draws: 0,
-
-  losses: 0,
+      secondaryColor,
 
 
 
-  // ======================
-  // ESTADO DEL CLUB
-  // ======================
 
-  reputation: 10,
-
-  fans: 300,
-
-  morale: 70,
+      season:2026,
 
 
+      division:"Primera Divisional C",
 
-  // ======================
-  // PLANTEL
-  // ======================
 
-  squad: [],
+      divisionLevel:3,
 
 
 
-  // ======================
-  // EVENTOS
-  // ======================
+      leagueTeams,
 
-  news: [
-    `El club ${club} ha sido creado`
-  ],
 
-  activeEvent: null
 
-});
+      schedule:
+        generateLeagueSchedule(
+          leagueTeams
+        ),
+
+
+
+      matchday:1,
+
+
+
+
+      money,
+
+
+      income:0,
+
+
+      expenses:0,
+
+
+
+
+      points:0,
+
+
+      position:16,
+
+
+      wins:0,
+
+
+      draws:0,
+
+
+      losses:0,
+
+
+
+
+      reputation:10,
+
+
+      fans:300,
+
+
+      morale:70,
+
+
+
+
+      squad:[],
+
+
+
+
+      news:[
+
+        `El club ${club} ha sido creado`
+
+      ],
+
+
+
+      activeEvent:null
+
+
+    });
+
+
 
 
 
@@ -172,7 +231,11 @@ setGame({
 
 
 
-  if (page === "new") {
+
+
+
+  if(page==="new"){
+
 
     return (
 
@@ -184,13 +247,16 @@ setGame({
 
     );
 
+
   }
 
 
 
 
 
-  if (page === "dashboard") {
+
+  if(page==="dashboard"){
+
 
     return (
 
@@ -204,7 +270,9 @@ setGame({
 
     );
 
-}
+
+  }
+
 
 
 
@@ -214,7 +282,9 @@ setGame({
 
     <Home
 
-      onNewGame={() => setPage("new")}
+      onNewGame={
+        ()=>setPage("new")
+      }
 
     />
 
@@ -222,6 +292,7 @@ setGame({
 
 
 }
+
 
 
 
