@@ -1,0 +1,30 @@
+<svg width="300" height="360" viewBox="0 0 300 360" xmlns="http://www.w3.org/2000/svg">
+
+<defs>
+<clipPath id="shirt">
+<path d="M85 25 L35 70 L65 125 L95 105 V310 C95 320 105 325 150 325 C195 325 205 320 205 310 V105 L235 125 L265 70 L215 25 L170 45 H130 Z"/>
+</clipPath>
+</defs>
+
+
+<g clip-path="url(#shirt)">
+
+<rect width="300" height="360" fill="white"/>
+
+<path
+d="M0 240 L300 40 L300 100 L0 300Z"
+fill="#DC2626"
+/>
+
+</g>
+
+
+<path d="M85 25L35 70L65 125L95 105L95 55Z"
+fill="#991B1B"/>
+
+
+<path d="M215 25L265 70L235 125L205 105L205 55Z"
+fill="#991B1B"/>
+
+
+</svg>

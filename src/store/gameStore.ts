@@ -8,11 +8,17 @@ export type GameState = {
 
   rival: string;
 
-  season: number;
-
   money: number;
 
+  season: number;
+
   customClub: boolean;
+
+  kitId: number;
+
+  primaryColor: string;
+
+  secondaryColor: string;
 
 };
 
@@ -28,10 +34,16 @@ export const initialGameState: GameState = {
 
   rival: "",
 
-  season: 2026,
-
   money: 0,
 
+  season: 2026,
+
   customClub: false,
+
+  kitId: 1,
+
+  primaryColor: "#2563EB",
+
+  secondaryColor: "#FFFFFF"
 
 };

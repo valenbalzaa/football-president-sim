@@ -10,6 +10,7 @@ import {
 } from "./store/gameStore";
 
 
+
 function App() {
 
 
@@ -22,14 +23,29 @@ function App() {
 
 
 
+
   function startGame(
+
     mode: string,
+
     club: string,
+
     money: number,
+
     stadium: string = "",
+
     rival: string = "",
-    customClub: boolean = false
+
+    customClub: boolean = false,
+
+    kitId: number = 1,
+
+    primaryColor: string = "#2563EB",
+
+    secondaryColor: string = "#FFFFFF"
+
   ) {
+
 
 
     setGame({
@@ -46,24 +62,38 @@ function App() {
 
       customClub,
 
+      kitId,
+
+      primaryColor,
+
+      secondaryColor,
+
       season: 2026
 
     });
 
 
+
     setPage("dashboard");
+
 
   }
 
 
 
 
-  if(page === "new"){
+
+
+
+  if (page === "new") {
+
 
     return (
 
       <NewGame
+
         onStart={startGame}
+
       />
 
     );
@@ -73,17 +103,26 @@ function App() {
 
 
 
-  if(page === "dashboard"){
+
+
+
+  if (page === "dashboard") {
+
 
     return (
 
       <Dashboard
+
         game={game}
+
       />
 
     );
 
   }
+
+
+
 
 
 
@@ -93,13 +132,15 @@ function App() {
 
     <Home
 
-      onNewGame={()=>setPage("new")}
+      onNewGame={() => setPage("new")}
 
     />
 
   );
 
+
 }
+
 
 
 export default App;

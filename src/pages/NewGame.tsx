@@ -1,5 +1,10 @@
 import { useState } from "react";
+
 import { clubs } from "../data/clubs";
+
+import KitSelector from "../components/KitSelector";
+import ColorPicker from "../components/ColorPicker";
+
 
 
 type Props = {
@@ -9,9 +14,13 @@ type Props = {
     money: number,
     stadium?: string,
     rival?: string,
-    customClub?: boolean
+    customClub?: boolean,
+    kitId?: number,
+    primaryColor?: string,
+    secondaryColor?: string
   ) => void;
 };
+
 
 
 const modes = [
@@ -28,20 +37,28 @@ const modes = [
 ];
 
 
+
 export default function NewGame({ onStart }: Props) {
 
 
-  const [selectedMode, setSelectedMode] = useState("");
+  const [selectedMode,setSelectedMode] = useState("");
 
-  const [clubType, setClubType] = useState("");
+  const [clubType,setClubType] = useState("");
 
-  const [selectedClub, setSelectedClub] = useState("");
+  const [selectedClub,setSelectedClub] = useState("");
 
-  const [clubName, setClubName] = useState("");
+  const [clubName,setClubName] = useState("");
 
-  const [stadium, setStadium] = useState("");
+  const [stadium,setStadium] = useState("");
 
-  const [rival, setRival] = useState("");
+  const [rival,setRival] = useState("");
+
+  const [selectedKit,setSelectedKit] = useState(1);
+
+  const [primaryColor,setPrimaryColor] = useState("#2563EB");
+
+  const [secondaryColor,setSecondaryColor] = useState("#FFFFFF");
+
 
 
 
@@ -69,8 +86,6 @@ export default function NewGame({ onStart }: Props) {
 
 
 
-      {/* Elegir modo */}
-
       <section className="mb-8">
 
         <h2 className="text-xl font-semibold mb-4">
@@ -79,7 +94,6 @@ export default function NewGame({ onStart }: Props) {
 
 
         <div className="space-y-4">
-
 
           {
             modes.map((mode)=>(
@@ -102,6 +116,7 @@ export default function NewGame({ onStart }: Props) {
                     ? "border-green-500 bg-green-500/20"
                     : "border-zinc-700 bg-zinc-900"
                   }
+
                 `}
 
               >
@@ -121,7 +136,6 @@ export default function NewGame({ onStart }: Props) {
             ))
           }
 
-
         </div>
 
       </section>
@@ -130,7 +144,6 @@ export default function NewGame({ onStart }: Props) {
 
 
 
-      {/* Tipo de club */}
 
 
       <section className="mb-8">
@@ -158,9 +171,9 @@ export default function NewGame({ onStart }: Props) {
               text-left
 
               ${
-                clubType === "existing"
-                ? "border-blue-500 bg-blue-500/20"
-                : "border-zinc-700 bg-zinc-900"
+                clubType==="existing"
+                ?"border-blue-500 bg-blue-500/20"
+                :"border-zinc-700 bg-zinc-900"
               }
 
             `}
@@ -171,13 +184,8 @@ export default function NewGame({ onStart }: Props) {
               ⚽ Elegir club existente
             </h3>
 
-
-            <p className="text-zinc-400 mt-2">
-              Comenzá con un club real.
-            </p>
-
-
           </button>
+
 
 
 
@@ -194,9 +202,9 @@ export default function NewGame({ onStart }: Props) {
               text-left
 
               ${
-                clubType === "custom"
-                ? "border-purple-500 bg-purple-500/20"
-                : "border-zinc-700 bg-zinc-900"
+                clubType==="custom"
+                ?"border-purple-500 bg-purple-500/20"
+                :"border-zinc-700 bg-zinc-900"
               }
 
             `}
@@ -208,17 +216,10 @@ export default function NewGame({ onStart }: Props) {
             </h3>
 
 
-            <p className="text-zinc-400 mt-2">
-              Fundá un equipo desde cero.
-            </p>
-
-
           </button>
 
 
-
         </div>
-
 
       </section>
 
@@ -228,20 +229,15 @@ export default function NewGame({ onStart }: Props) {
 
 
 
-      {/* Club existente */}
-
 
       {
-        clubType === "existing" && (
-
+        clubType==="existing" && (
 
           <section className="mb-8">
-
 
             <h2 className="text-xl font-semibold mb-4">
               Elegí tu club
             </h2>
-
 
 
             <div className="space-y-3">
@@ -265,28 +261,22 @@ export default function NewGame({ onStart }: Props) {
                       text-left
 
                       ${
-                        selectedClub === club.name
-                        ? "border-blue-500 bg-blue-500/20"
-                        : "border-zinc-700 bg-zinc-900"
+                        selectedClub===club.name
+                        ?"border-blue-500 bg-blue-500/20"
+                        :"border-zinc-700 bg-zinc-900"
                       }
 
                     `}
 
                   >
 
-
-                    <h3 className="font-bold text-lg">
+                    <h3 className="font-bold">
                       {club.name}
                     </h3>
 
 
                     <p className="text-zinc-400">
                       {club.city}
-                    </p>
-
-
-                    <p className="text-green-400 text-sm mt-2">
-                      Reputación: {club.reputation}/100
                     </p>
 
 
@@ -299,9 +289,7 @@ export default function NewGame({ onStart }: Props) {
 
             </div>
 
-
           </section>
-
 
         )
       }
@@ -312,12 +300,11 @@ export default function NewGame({ onStart }: Props) {
 
 
 
-      {/* Crear club */}
+
 
 
       {
-        clubType === "custom" && (
-
+        clubType==="custom" && (
 
           <section className="mb-8">
 
@@ -348,7 +335,6 @@ export default function NewGame({ onStart }: Props) {
               "
 
             />
-
 
 
 
@@ -395,7 +381,7 @@ export default function NewGame({ onStart }: Props) {
             >
 
               <option value="">
-                Elegí el clásico rival
+                Elegí clásico rival
               </option>
 
 
@@ -417,8 +403,53 @@ export default function NewGame({ onStart }: Props) {
 
 
 
-          </section>
 
+
+            <div className="mt-8">
+
+
+              <KitSelector
+
+                selectedKit={selectedKit}
+
+                onSelect={setSelectedKit}
+
+                primaryColor={primaryColor}
+
+                secondaryColor={secondaryColor}
+
+              />
+
+
+
+              <ColorPicker
+
+                title="Color principal"
+
+                color={primaryColor}
+
+                onChange={setPrimaryColor}
+
+              />
+
+
+
+
+              <ColorPicker
+
+                title="Color secundario"
+
+                color={secondaryColor}
+
+                onChange={setSecondaryColor}
+
+              />
+
+
+            </div>
+
+
+          </section>
 
         )
       }
@@ -431,11 +462,7 @@ export default function NewGame({ onStart }: Props) {
 
 
 
-      {/* Botón continuar */}
-
-
       <button
-
 
         disabled={
 
@@ -444,14 +471,14 @@ export default function NewGame({ onStart }: Props) {
           !clubType ||
 
           (
-            clubType === "existing" &&
+            clubType==="existing" &&
             !selectedClub
           )
 
           ||
 
           (
-            clubType === "custom" &&
+            clubType==="custom" &&
             (
               !clubName ||
               !stadium ||
@@ -466,7 +493,7 @@ export default function NewGame({ onStart }: Props) {
         onClick={()=>{
 
 
-          if(clubType === "custom"){
+          if(clubType==="custom"){
 
 
             onStart(
@@ -481,7 +508,13 @@ export default function NewGame({ onStart }: Props) {
 
               rival,
 
-              true
+              true,
+
+              selectedKit,
+
+              primaryColor,
+
+              secondaryColor
 
             );
 
@@ -492,8 +525,9 @@ export default function NewGame({ onStart }: Props) {
 
 
 
+
           const clubData = clubs.find(
-            c=>c.name === selectedClub
+            c=>c.name===selectedClub
           );
 
 
@@ -518,7 +552,6 @@ export default function NewGame({ onStart }: Props) {
         }}
 
 
-
         className="
           fixed
           bottom-5
@@ -535,7 +568,6 @@ export default function NewGame({ onStart }: Props) {
       >
 
         Continuar
-
 
       </button>
 
