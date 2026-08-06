@@ -1,10 +1,15 @@
 import React from "react";
 
-import type { GameState } from "../store/gameStore";
+import type {
+  GameState
+} from "../store/gameStore";
+
 
 import {
   playMatch
 } from "../engine/gameEngine";
+
+
 
 
 
@@ -21,10 +26,20 @@ type Props = {
 
 
 
+
+
+
+
 export default function Dashboard({
+
   game,
+
   setGame
+
 }: Props) {
+
+
+
 
 
 
@@ -35,8 +50,11 @@ export default function Dashboard({
       match.matchday === game.matchday &&
 
       (
+
         match.home === game.club ||
+
         match.away === game.club
+
       )
 
   );
@@ -45,10 +63,16 @@ export default function Dashboard({
 
 
 
+
+
   function handlePlayMatch(){
 
 
-    if(!nextMatch) return;
+
+    if(!nextMatch)
+      return;
+
+
 
 
 
@@ -59,6 +83,7 @@ export default function Dashboard({
       ? nextMatch.away
 
       : nextMatch.home;
+
 
 
 
@@ -75,7 +100,10 @@ export default function Dashboard({
 
 
 
+
+
     setGame(updatedGame);
+
 
 
   }
@@ -86,155 +114,126 @@ export default function Dashboard({
 
 
 
-  return (
 
-    <main className="
-      min-h-screen
-      bg-zinc-950
-      text-white
-      p-5
-    ">
+return (
 
 
+<main className="
+min-h-screen
+bg-zinc-950
+text-white
+p-5
+">
 
-      <section className="
-        bg-zinc-900
-        rounded-3xl
-        p-6
-        mb-6
-      ">
 
 
-        <p className="
-          text-zinc-400
-          text-sm
-        ">
-          Presidente
-        </p>
 
 
-        <h1 className="
-          text-3xl
-          font-bold
-        ">
-          {game.club}
-        </h1>
 
 
-        <p className="text-zinc-400">
-          {game.division}
-        </p>
+{/* HEADER */}
 
+<section className="
+bg-zinc-900
+rounded-3xl
+p-6
+mb-6
+">
 
-      </section>
 
+<p className="text-zinc-400 text-sm">
 
+Presidente
 
+</p>
 
 
 
+<h1 className="
+text-3xl
+font-bold
+">
 
-      <section className="
-        grid
-        grid-cols-2
-        gap-4
-        mb-6
-      ">
+{game.club}
 
+</h1>
 
-        <Stat
 
-          title="💰 Presupuesto"
 
-          value={
-            `$${game.money.toLocaleString()}`
-          }
+<p className="text-zinc-400">
 
-        />
+{game.division}
 
+</p>
 
-        <Stat
 
-          title="👥 Hinchas"
+</section>
 
-          value={game.fans}
 
-        />
 
 
-        <Stat
 
-          title="🧠 Moral"
 
-          value={`${game.morale}%`}
 
-        />
 
 
-        <Stat
 
-          title="⭐ Reputación"
+{/* ESTADISTICAS */}
 
-          value={game.reputation}
+<section className="
+grid
+grid-cols-2
+gap-4
+mb-6
+">
 
-        />
 
+<Stat
 
-      </section>
+title="💰 Presupuesto"
 
+value={
 
+`$${game.money.toLocaleString()}`
 
+}
 
+/>
 
 
 
+<Stat
 
-      <section className="
-        bg-zinc-900
-        rounded-3xl
-        p-5
-        mb-6
-      ">
+title="👥 Hinchas"
 
+value={game.fans}
 
-        <h2 className="
-          text-xl
-          font-bold
-          mb-4
-        ">
-          🏆 Campeonato
-        </h2>
+/>
 
 
 
 
-        <div className="
-          flex
-          justify-between
-        ">
+<Stat
 
+title="🧠 Moral"
 
-          <span>
-            Fecha {game.matchday}
-          </span>
+value={`${game.morale}%`}
 
+/>
 
-          <span>
-            {game.points} pts
-          </span>
 
 
-          <span>
-            {game.position}°
-          </span>
+<Stat
 
+title="⭐ Reputación"
 
-        </div>
+value={game.reputation}
 
+/>
 
-      </section>
 
 
+</section>
 
 
 
@@ -242,262 +241,439 @@ export default function Dashboard({
 
 
 
-      <section className="
-        bg-gradient-to-r
-        from-blue-900
-        to-zinc-900
-        rounded-3xl
-        p-6
-        mb-6
-      ">
 
 
+{/* CAMPEONATO */}
 
-        <h2 className="
-          text-xl
-          font-bold
-          mb-4
-        ">
-          ⚽ Próximo partido
-        </h2>
+<section className="
+bg-zinc-900
+rounded-3xl
+p-5
+mb-6
+">
 
 
+<h2 className="
+text-xl
+font-bold
+mb-4
+">
 
+🏆 Campeonato
 
+</h2>
 
-        {
 
-        nextMatch ? (
 
+<div className="
+flex
+justify-between
+">
 
-          <>
 
+<span>
 
-            <p className="
-              text-lg
-              font-semibold
-            ">
+Fecha {game.matchday}
 
+</span>
 
-              {nextMatch.home}
 
 
-              <span className="
-                mx-2
-                text-zinc-400
-              ">
-                vs
-              </span>
+<span>
 
+{game.points} pts
 
-              {nextMatch.away}
+</span>
 
 
-            </p>
 
+<span>
 
+{game.position}°
 
+</span>
 
 
-            <p className="
-              mt-2
-              text-sm
-              text-zinc-400
-            ">
 
+</div>
 
-              {
-                nextMatch.home === game.club
 
-                ? "🏠 Juegas de local"
+</section>
 
-                : "✈️ Juegas de visitante"
-              }
 
 
-            </p>
 
 
 
-          </>
 
 
-        ) : (
 
+{/* PARTIDO */}
 
-          <p className="text-zinc-400">
+<section className="
+bg-gradient-to-r
+from-blue-900
+to-zinc-900
+rounded-3xl
+p-6
+mb-6
+">
 
-            No hay partido programado
 
-          </p>
 
+<h2 className="
+text-xl
+font-bold
+mb-4
+">
 
-        )
+⚽ Partido
 
-        }
+</h2>
 
 
 
 
 
-        <button
 
-          onClick={handlePlayMatch}
 
-          disabled={!nextMatch}
 
-          className="
-            mt-5
-            w-full
-            bg-blue-600
-            hover:bg-blue-700
-            disabled:bg-zinc-700
-            rounded-xl
-            py-3
-            font-bold
-          "
+{
 
-        >
+game.lastMatch ? (
 
-          JUGAR PARTIDO
 
-        </button>
 
+<div>
 
 
-      </section>
+<p className="
+text-3xl
+font-bold
+text-center
+">
 
+{game.lastMatch.homeGoals}
 
+-
 
+{game.lastMatch.awayGoals}
 
+</p>
 
 
 
+<p className="
+text-center
+mt-3
+">
 
+{game.lastMatch.home}
 
-      <section className="
-        bg-zinc-900
-        rounded-3xl
-        p-5
-        mb-6
-      ">
+vs
 
+{game.lastMatch.away}
 
-        <h2 className="
-          text-xl
-          font-bold
-          mb-4
-        ">
-          📰 Noticias
-        </h2>
+</p>
 
 
 
-        {
-          game.news
-          .slice(-5)
-          .reverse()
-          .map(
+<p className="
+text-center
+text-zinc-300
+mt-3
+">
 
-            (news,index)=>(
+{game.lastMatch.result}
 
-              <p
+</p>
 
-                key={index}
 
-                className="
-                  text-zinc-300
-                  mb-2
-                "
+</div>
 
-              >
 
-                • {news}
 
-              </p>
+)
 
-            )
 
-          )
 
-        }
+:
 
+nextMatch ? (
 
-      </section>
 
 
+<div>
 
 
+<p className="
+text-lg
+font-bold
+">
 
+{nextMatch.home}
 
 
+<span className="
+mx-2
+text-zinc-400
+">
 
+vs
 
-      <section>
+</span>
 
 
-        <h2 className="
-          text-xl
-          font-bold
-          mb-4
-        ">
-          Gestión del club
-        </h2>
+{nextMatch.away}
 
 
+</p>
 
-        <div className="
-          grid
-          grid-cols-2
-          gap-4
-        ">
 
 
-          {
-            [
-              "👥 Plantilla",
-              "💼 Finanzas",
-              "🔄 Mercado",
-              "📅 Calendario",
-              "🏟 Instalaciones",
-              "📰 Noticias"
 
-            ].map(item => (
 
+<p className="
+text-sm
+text-zinc-400
+mt-2
+">
 
-              <button
+{
 
-                key={item}
+nextMatch.home === game.club
 
-                className="
-                  bg-zinc-900
-                  rounded-2xl
-                  p-5
-                  hover:bg-zinc-800
-                "
+?
 
-              >
+"🏠 Juegas de local"
 
-                {item}
+:
 
-              </button>
+"✈️ Juegas de visitante"
 
+}
 
-            ))
+</p>
 
-          }
 
 
-        </div>
 
 
-      </section>
+<button
 
+onClick={handlePlayMatch}
 
+className="
+mt-5
+w-full
+bg-blue-600
+hover:bg-blue-700
+rounded-xl
+py-3
+font-bold
+"
 
-    </main>
+>
 
-  );
+JUGAR PARTIDO
+
+</button>
+
+
+</div>
+
+
+
+)
+
+
+
+:
+
+
+
+<p className="text-zinc-400">
+
+No hay partido programado
+
+</p>
+
+
+
+}
+
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+{/* NOTICIAS */}
+
+<section className="
+bg-zinc-900
+rounded-3xl
+p-5
+mb-6
+">
+
+
+<h2 className="
+text-xl
+font-bold
+mb-4
+">
+
+📰 Noticias
+
+</h2>
+
+
+
+
+{
+
+game.news
+
+.slice(-5)
+
+.reverse()
+
+.map(
+
+(news,index)=>(
+
+
+<p
+
+key={index}
+
+className="
+text-zinc-300
+mb-2
+"
+
+>
+
+• {news}
+
+</p>
+
+
+
+)
+
+
+)
+
+
+}
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+{/* MENU */}
+
+<section>
+
+
+<h2 className="
+text-xl
+font-bold
+mb-4
+">
+
+Gestión del club
+
+</h2>
+
+
+
+
+
+<div className="
+grid
+grid-cols-2
+gap-4
+">
+
+
+{
+
+[
+
+"👥 Plantilla",
+
+"💼 Finanzas",
+
+"🔄 Mercado",
+
+"📅 Calendario",
+
+"🏟 Instalaciones",
+
+"📰 Noticias"
+
+]
+
+.map(item=>(
+
+
+<button
+
+key={item}
+
+className="
+bg-zinc-900
+rounded-2xl
+p-5
+hover:bg-zinc-800
+"
+
+>
+
+{item}
+
+</button>
+
+
+))
+
+
+}
+
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+</main>
+
+
+);
 
 }
 
@@ -507,50 +683,58 @@ export default function Dashboard({
 
 
 
+
+
 function Stat({
 
-  title,
+title,
 
-  value
+value
+
 
 }:{
 
-  title:string;
+title:string;
 
-  value:string | number;
+value:string | number;
+
 
 }){
 
 
-  return (
-
-    <div className="
-      bg-zinc-900
-      rounded-2xl
-      p-4
-    ">
+return (
 
 
-      <p className="text-zinc-400">
-
-        {title}
-
-      </p>
-
-
-      <p className="
-        text-xl
-        font-bold
-      ">
-
-        {value}
-
-      </p>
+<div className="
+bg-zinc-900
+rounded-2xl
+p-4
+">
 
 
-    </div>
+<p className="text-zinc-400">
 
-  );
+{title}
+
+</p>
+
+
+
+<p className="
+text-xl
+font-bold
+">
+
+{value}
+
+</p>
+
+
+
+</div>
+
+
+);
 
 
 }

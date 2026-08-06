@@ -1,66 +1,44 @@
-import type { GameState } from "../store/gameStore";
-import type { EventOption } from "../data/events";
-
-
-export function applyEventOption(
-  game: GameState,
-  option: EventOption
-): GameState {
-
-
-  return {
-
-    ...game,
-
-
-    money:
-      game.money +
-      (option.effects.money ?? 0),
+import type { GameEvent } from "../types/event";
 
 
 
-    morale:
-      Math.max(
-        0,
-        Math.min(
-          100,
-          game.morale +
-          (option.effects.morale ?? 0)
+const events: GameEvent[] = [];
+
+
+
+
+
+export function getRandomEvent(): GameEvent | null {
+
+
+
+  const chance = Math.random();
+
+
+
+  if(chance > 0.7){
+
+
+    if(events.length > 0){
+
+
+      return events[
+
+        Math.floor(
+          Math.random() * events.length
         )
-      ),
+
+      ];
+
+
+    }
+
+
+  }
 
 
 
-    reputation:
-      Math.max(
-        0,
-        game.reputation +
-        (option.effects.reputation ?? 0)
-      ),
-
-
-
-    fans:
-      Math.max(
-        0,
-        game.fans +
-        (option.effects.fans ?? 0)
-      ),
-
-
-
-    // Cerramos el evento
-    activeEvent:null,
-
-
-    news:[
-      ...game.news,
-
-      `Decisión tomada: ${option.text}`
-
-    ]
-
-  };
+  return null;
 
 
 }

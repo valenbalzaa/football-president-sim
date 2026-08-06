@@ -1,33 +1,14 @@
 import type { Player } from "../types/player";
 import type { GameEvent } from "../types/event";
 import type { Club } from "../data/clubs";
-
-
-
-export type Match = {
-
-  id: number;
-
-  matchday: number;
-
-  home: string;
-
-  away: string;
-
-  played: boolean;
-
-};
-
-
+import type { Match } from "../types/match";
 
 
 
 export type GameState = {
 
 
-  // ======================
-  // CLUB CREADO
-  // ======================
+  // CLUB
 
   mode: string;
 
@@ -41,94 +22,95 @@ export type GameState = {
 
 
 
-  // ======================
   // CAMISETA
-  // ======================
 
-  kitId: number;
+  kitId:number;
 
-  primaryColor: string;
+  primaryColor:string;
 
-  secondaryColor: string;
-
+  secondaryColor:string;
 
 
-  // ======================
+
   // TEMPORADA
-  // ======================
 
-  season: number;
+  season:number;
 
-  division: string;
+  division:string;
 
-  divisionLevel: number;
+  divisionLevel:number;
 
+  leagueTeams:Club[];
 
-  leagueTeams: Club[];
+  schedule:Match[];
 
-
-  schedule: Match[];
-
-
-  matchday: number;
+  matchday:number;
 
 
 
-  // ======================
-  // ECONOMÍA
-  // ======================
+  // ECONOMIA
 
-  money: number;
+  money:number;
 
-  income: number;
+  income:number;
 
-  expenses: number;
+  expenses:number;
 
 
 
-  // ======================
-  // COMPETICIÓN
-  // ======================
+  // COMPETICION
 
-  points: number;
+  points:number;
 
-  position: number;
+  position:number;
 
-  wins: number;
+  wins:number;
 
-  draws: number;
+  draws:number;
 
-  losses: number;
+  losses:number;
 
 
 
-  // ======================
-  // ESTADO DEL CLUB
-  // ======================
+  // ESTADO CLUB
 
-  reputation: number;
+  reputation:number;
 
-  fans: number;
+  fans:number;
 
-  morale: number;
+  morale:number;
 
 
 
-  // ======================
   // PLANTEL
-  // ======================
 
-  squad: Player[];
-
+  squad:Player[];
 
 
-  // ======================
+
   // EVENTOS
-  // ======================
 
-  news: string[];
+  news:string[];
 
-  activeEvent: GameEvent | null;
+  activeEvent:GameEvent | null;
+
+
+
+  // ULTIMO PARTIDO
+
+  lastMatch:{
+
+    home:string;
+
+    away:string;
+
+    homeGoals:number;
+
+    awayGoals:number;
+
+    result:string;
+
+  } | null;
 
 
 };
@@ -137,111 +119,85 @@ export type GameState = {
 
 
 
+export const initialGameState:GameState = {
 
 
-export const initialGameState: GameState = {
+  mode:"",
 
+  club:"",
 
+  stadium:"",
 
-  // CLUB
+  rival:"",
 
-  mode: "",
+  customClub:false,
 
-  club: "",
 
-  stadium: "",
 
-  rival: "",
+  kitId:1,
 
-  customClub: false,
+  primaryColor:"#2563EB",
 
+  secondaryColor:"#FFFFFF",
 
 
-  // CAMISETA
 
-  kitId: 1,
+  season:2026,
 
-  primaryColor: "#2563EB",
+  division:"Primera Divisional C",
 
-  secondaryColor: "#FFFFFF",
+  divisionLevel:3,
 
 
+  leagueTeams:[],
 
 
-  // TEMPORADA
+  schedule:[],
 
-  season: 2026,
 
-  division: "Primera Divisional C",
+  matchday:1,
 
-  divisionLevel: 3,
 
 
-  leagueTeams: [],
+  money:500000,
 
+  income:0,
 
-  schedule: [],
+  expenses:0,
 
 
-  matchday: 1,
 
+  points:0,
 
+  position:16,
 
+  wins:0,
 
+  draws:0,
 
-  // ECONOMÍA
+  losses:0,
 
-  money: 500000,
 
-  income: 0,
 
-  expenses: 0,
+  reputation:10,
 
+  fans:300,
 
+  morale:70,
 
 
 
-  // COMPETICIÓN
+  squad:[],
 
-  points: 0,
 
-  position: 16,
 
-  wins: 0,
+  news:[],
 
-  draws: 0,
 
-  losses: 0,
+  activeEvent:null,
 
 
-
-
-
-  // CLUB
-
-  reputation: 10,
-
-  fans: 300,
-
-  morale: 70,
-
-
-
-
-
-  // PLANTEL
-
-  squad: [],
-
-
-
-
-
-  // EVENTOS
-
-  news: [],
-
-  activeEvent: null
+  lastMatch:null
 
 
 };

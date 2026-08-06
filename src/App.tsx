@@ -11,7 +11,8 @@ import {
 
 
 import {
-  clubs
+  clubs,
+  type Club
 } from "./data/clubs";
 
 
@@ -24,15 +25,20 @@ import {
 
 
 
-function App() {
+
+function App(){
 
 
-  const [page,setPage] = useState("home");
+
+  const [page,setPage]=useState("home");
 
 
-  const [game,setGame] = useState<GameState>(
+
+  const [game,setGame]=useState<GameState>(
     initialGameState
   );
+
+
 
 
 
@@ -48,57 +54,111 @@ function App() {
 
     money:number,
 
-    stadium:string = "",
+    stadium:string="",
 
-    rival:string = "",
+    rival:string="",
 
-    customClub:boolean = false,
+    customClub:boolean=false,
 
-    kitId:number = 1,
+    kitId:number=1,
 
-    primaryColor:string = "#2563EB",
+    primaryColor:string="#2563EB",
 
-    secondaryColor:string = "#FFFFFF"
+    secondaryColor:string="#FFFFFF"
+
 
   ){
 
 
 
-    const leagueTeams = customClub
 
-      ? [
 
-          ...clubs,
 
-          {
+    const leagueTeams:Club[] = customClub
 
-            id:999,
 
-            name:club,
+    ? [
 
-            shortName:
-              club
-              .substring(0,3)
-              .toUpperCase(),
+        ...clubs,
 
-            division:
-              "Primera Divisional C",
 
-            city:"Montevideo",
+        {
 
-            stadium,
 
-            reputation:10,
+          id:999,
 
-            strength:50,
 
-            budget:money
+          name:club,
 
-          }
 
-        ]
+          shortName:
 
-      : clubs;
+            club
+
+            .substring(0,3)
+
+            .toUpperCase(),
+
+
+
+          division:"Primera Divisional C",
+
+
+          city:"Montevideo",
+
+
+          stadium,
+
+
+          reputation:10,
+
+
+          strength:50,
+
+
+          budget:money,
+
+
+          fans:300,
+
+
+          youthLevel:50,
+
+
+          facilities:50,
+
+
+          finances:50,
+
+
+          objective:"Salvarse"
+
+
+        }
+
+
+      ]
+
+
+
+    : clubs;
+
+
+
+
+
+
+
+    const schedule =
+
+      generateLeagueSchedule(
+
+        leagueTeams
+
+      );
+
+
+
 
 
 
@@ -149,14 +209,13 @@ function App() {
 
 
 
-      schedule:
-        generateLeagueSchedule(
-          leagueTeams
-        ),
+      schedule,
 
 
 
       matchday:1,
+
+
 
 
 
@@ -168,6 +227,7 @@ function App() {
 
 
       expenses:0,
+
 
 
 
@@ -189,6 +249,7 @@ function App() {
 
 
 
+
       reputation:10,
 
 
@@ -200,7 +261,9 @@ function App() {
 
 
 
+
       squad:[],
+
 
 
 
@@ -213,7 +276,14 @@ function App() {
 
 
 
-      activeEvent:null
+
+
+      activeEvent:null,
+
+
+
+      lastMatch:null
+
 
 
     });
@@ -226,6 +296,8 @@ function App() {
 
 
   }
+
+
 
 
 
@@ -255,6 +327,9 @@ function App() {
 
 
 
+
+
+
   if(page==="dashboard"){
 
 
@@ -262,11 +337,15 @@ function App() {
 
       <Dashboard
 
+
         game={game}
+
 
         setGame={setGame}
 
+
       />
+
 
     );
 
@@ -278,21 +357,29 @@ function App() {
 
 
 
+
+
   return (
+
 
     <Home
 
+
       onNewGame={
+
         ()=>setPage("new")
+
       }
 
+
     />
+
 
   );
 
 
-}
 
+}
 
 
 

@@ -1,100 +1,68 @@
 import type { Club } from "../data/clubs";
-import type { Match } from "../store/gameStore";
+import type { Match } from "../types/match";
+
+
 
 
 
 export function generateLeagueSchedule(
 
-  teams: Club[]
+  teams:Club[]
 
-): Match[] {
-
-
-  const matches: Match[] = [];
-
-
-  let id = 1;
-
-
-  let matchday = 1;
+):Match[]{
 
 
 
-  const totalTeams = teams.length;
+  const matches:Match[]=[];
 
 
+  let id=1;
 
-  const rounds = totalTeams - 1;
-
-
-
-  const matchesPerRound = totalTeams / 2;
-
-
-
-  let rotation = [...teams];
+  let matchday=1;
 
 
 
 
-
-  // ======================
-  // PRIMERA RUEDA
-  // ======================
-
-
-  for(let round = 0; round < rounds; round++){
+  const list=[...teams];
 
 
 
-    for(
-      let i = 0;
-      i < matchesPerRound;
-      i++
-    ){
+
+  if(list.length % 2 !== 0){
 
 
-      const home = rotation[i];
+    list.push({
 
-      const away =
-        rotation[
-          totalTeams - 1 - i
-        ];
+      id:999,
 
+      name:"DESCANSA",
 
+      shortName:"BYE",
 
-      matches.push({
+      division:"Primera Divisional C",
 
-        id:id++,
+      city:"",
 
-        matchday,
+      stadium:"",
 
-        home:home.name,
+      reputation:0,
 
-        away:away.name,
+      strength:0,
 
-        played:false
+      budget:0,
 
-      });
+      fans:0,
 
+      youthLevel:0,
 
-    }
+      facilities:0,
 
+      finances:0,
 
-
-    rotation.splice(
-
-      1,
-
-      0,
-
-      rotation.pop()!
-
-    );
+      objective:"Salvarse"
 
 
-
-    matchday++;
+    });
 
 
   }
@@ -104,44 +72,141 @@ export function generateLeagueSchedule(
 
 
 
-  // ======================
-  // SEGUNDA RUEDA
-  // ======================
+  const total=list.length;
 
 
-  const firstRound = [...matches];
+  const rounds=total-1;
+
+
+  const gamesPerRound=total/2;
 
 
 
-  firstRound.forEach(match => {
 
 
-    matches.push({
+  for(
 
-      id:id++,
+    let round=0;
 
-      matchday,
+    round<rounds;
 
-      home:match.away,
+    round++
 
-      away:match.home,
+  ){
 
-      played:false
 
-    });
+
+    for(
+
+      let i=0;
+
+      i<gamesPerRound;
+
+      i++
+
+    ){
+
+
+
+      const home=list[i];
+
+
+      const away=list[total-1-i];
+
+
+
+
+
+      if(
+
+        home.name !== "DESCANSA"
+
+        &&
+
+        away.name !== "DESCANSA"
+
+      ){
+
+
+
+        matches.push({
+
+
+          id:id++,
+
+
+          matchday,
+
+
+          home:home.name,
+
+
+          away:away.name,
+
+
+          played:false
+
+
+
+        });
+
+
+
+      }
+
+
+
+    }
+
+
+
+
+
+    const fixed=list[0];
+
+
+    const rotating=list.slice(1);
+
+
+
+    rotating.unshift(
+
+      rotating.pop()!
+
+    );
+
+
+
+    list.splice(
+
+      0,
+
+      list.length,
+
+      fixed,
+
+      ...rotating
+
+    );
+
 
 
 
     matchday++;
 
 
-  });
+
+
+  }
+
+
 
 
 
 
 
   return matches;
+
 
 
 }

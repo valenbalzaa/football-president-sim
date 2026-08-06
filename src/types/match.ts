@@ -1,13 +1,13 @@
 export type Match = {
 
-  id:number;
+  id: number;
 
-  matchday:number;
+  matchday: number;
 
-  home:string;
+  home: string;
 
-  away:string;
+  away: string;
 
-  played:boolean;
+  played: boolean;
 
 };
