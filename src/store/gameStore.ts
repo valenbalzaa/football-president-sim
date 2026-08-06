@@ -2,6 +2,7 @@ import type { Player } from "../types/player";
 import type { GameEvent } from "../types/event";
 import type { Club } from "../data/clubs";
 import type { Standing } from "../types/standing";
+import type { Match } from "../types/match";
 
 export type GameState = {
     
@@ -46,7 +47,8 @@ export type GameState = {
   divisionLevel: number;
 
   leagueTeams:Club[];
-  matchday: number;
+  matchday: number
+  schedule: Match[];
   fixtures: Match[];
   standings: Standing[];
 
@@ -119,6 +121,7 @@ export const initialGameState: GameState = {
   // ======================
   // CLUB
   // ======================
+  schedule: [],
 
   mode: "",
 
