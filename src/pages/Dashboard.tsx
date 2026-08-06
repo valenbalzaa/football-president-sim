@@ -1,9 +1,14 @@
 import React from "react";
+
 import type { GameState } from "../store/gameStore";
 
 import {
   playMatch
 } from "../engine/gameEngine";
+
+import {
+  applyEventOption
+} from "../engine/eventEngine";
 
 import {
   clubs
@@ -20,6 +25,7 @@ type Props = {
   >;
 
 };
+
 
 
 
@@ -61,6 +67,38 @@ export default function Dashboard({
 
 
 
+
+  function handleEventOption(option:any){
+
+
+    const updatedGame =
+      applyEventOption(
+        game,
+        option
+      );
+
+
+    setGame(updatedGame);
+
+  }
+
+
+
+
+
+
+  const nextOpponent =
+    clubs.find(
+      club =>
+        club.name !== game.club
+    );
+
+
+
+
+
+
+
   return (
 
     <main className="
@@ -71,7 +109,9 @@ export default function Dashboard({
     ">
 
 
-      {/* CABECERA */}
+
+
+      {/* HEADER */}
 
       <section className="
         bg-zinc-900
@@ -86,12 +126,16 @@ export default function Dashboard({
         <div className="
           flex
           justify-between
+          items-center
         ">
 
 
           <div>
 
-            <p className="text-zinc-400 text-sm">
+            <p className="
+              text-zinc-400
+              text-sm
+            ">
               Presidente
             </p>
 
@@ -104,7 +148,9 @@ export default function Dashboard({
             </h1>
 
 
-            <p className="text-zinc-400">
+            <p className="
+              text-zinc-400
+            ">
               {game.division}
             </p>
 
@@ -112,14 +158,22 @@ export default function Dashboard({
           </div>
 
 
-          <div className="text-right">
+
+
+          <div className="
+            text-right
+          ">
+
 
             <p className="text-zinc-400">
               Temporada
             </p>
 
 
-            <p className="text-2xl font-bold">
+            <p className="
+              text-2xl
+              font-bold
+            ">
               {game.season}
             </p>
 
@@ -127,10 +181,14 @@ export default function Dashboard({
           </div>
 
 
+
         </div>
 
 
       </section>
+
+
+
 
 
 
@@ -147,10 +205,14 @@ export default function Dashboard({
       ">
 
 
+
         <Stat
-          title="💰 Presupuesto"
-          value={`$${game.money.toLocaleString()}`}
+          title="💰 Dinero"
+          value={
+            `$${game.money.toLocaleString()}`
+          }
         />
+
 
 
         <Stat
@@ -159,10 +221,12 @@ export default function Dashboard({
         />
 
 
+
         <Stat
           title="🧠 Moral"
           value={`${game.morale}%`}
         />
+
 
 
         <Stat
@@ -177,7 +241,10 @@ export default function Dashboard({
 
 
 
-      {/* CAMPEONATO */}
+
+
+
+      {/* TABLA */}
 
 
       <section className="
@@ -195,6 +262,7 @@ export default function Dashboard({
         ">
           🏆 Campeonato
         </h2>
+
 
 
 
@@ -229,68 +297,90 @@ export default function Dashboard({
 
 
 
+
+
+
+
       {/* EVENTO */}
+
 
 
       {
         game.activeEvent && (
 
-          <section className="
-            bg-yellow-900
-            rounded-3xl
-            p-5
-            mb-6
+        <section className="
+          bg-yellow-900
+          rounded-3xl
+          p-5
+          mb-6
+        ">
+
+
+          <h2 className="
+            text-xl
+            font-bold
+            mb-2
           ">
-
-
-            <h2 className="
-              text-xl
-              font-bold
-              mb-2
-            ">
-              📰 {game.activeEvent.title}
-            </h2>
-
-
-            <p className="mb-4">
-              {game.activeEvent.description}
-            </p>
+            📰 {game.activeEvent.title}
+          </h2>
 
 
 
-            <div className="
-              space-y-3
-            ">
+          <p className="
+            text-zinc-200
+            mb-5
+          ">
+            {game.activeEvent.description}
+          </p>
 
 
-            {
-              game.activeEvent.options.map(
-                (option,index)=>(
 
-                  <button
-                    key={index}
-                    className="
-                      w-full
-                      bg-yellow-700
-                      hover:bg-yellow-600
-                      rounded-xl
-                      p-3
-                    "
-                  >
 
-                    {option.text}
+          <div className="space-y-3">
 
-                  </button>
 
-                )
+          {
+            game.activeEvent.options.map(
+
+              (option,index)=>(
+
+
+              <button
+
+              key={index}
+
+
+              onClick={() =>
+                handleEventOption(option)
+              }
+
+
+              className="
+                w-full
+                bg-yellow-700
+                hover:bg-yellow-600
+                rounded-xl
+                p-3
+                font-bold
+              "
+
+              >
+
+                {option.text}
+
+              </button>
+
+
               )
-            }
+
+            )
+          }
 
 
-            </div>
+          </div>
 
 
-          </section>
+        </section>
 
         )
       }
@@ -301,7 +391,10 @@ export default function Dashboard({
 
 
 
+
+
       {/* PARTIDO */}
+
 
 
       <section className="
@@ -324,38 +417,47 @@ export default function Dashboard({
 
 
 
-        <p className="text-lg">
+
+        <p className="
+          text-lg
+        ">
+
 
           {game.club}
+
 
           <span className="mx-2">
             vs
           </span>
 
+
+
           {
-            clubs.find(
-              c=>c.name !== game.club
-            )?.name
+            nextOpponent?.name
           }
+
 
 
         </p>
 
 
 
+
+
         <button
 
-          onClick={handlePlayMatch}
+        onClick={handlePlayMatch}
 
-          className="
-            mt-5
-            w-full
-            bg-blue-600
-            hover:bg-blue-700
-            rounded-xl
-            py-3
-            font-bold
-          "
+
+        className="
+          mt-5
+          w-full
+          bg-blue-600
+          hover:bg-blue-700
+          rounded-xl
+          py-3
+          font-bold
+        "
 
         >
 
@@ -371,7 +473,11 @@ export default function Dashboard({
 
 
 
+
+
+
       {/* NOTICIAS */}
+
 
 
       <section className="
@@ -382,13 +488,16 @@ export default function Dashboard({
       ">
 
 
+
         <h2 className="
           text-xl
           font-bold
-          mb-3
+          mb-4
         ">
-          📰 Últimas noticias
+          📰 Noticias
         </h2>
+
+
 
 
         {
@@ -396,24 +505,30 @@ export default function Dashboard({
           .slice(-5)
           .reverse()
           .map(
-            (news,index)=>(
+            (item,index)=>(
 
-              <p
-                key={index}
-                className="
-                  text-zinc-300
-                  mb-2
-                "
-              >
-                • {news}
-              </p>
+            <p
+            key={index}
+            className="
+              text-zinc-300
+              mb-2
+            "
+            >
+
+              • {item}
+
+            </p>
 
             )
           )
+
         }
 
 
+
       </section>
+
+
 
 
 
@@ -424,60 +539,74 @@ export default function Dashboard({
       {/* MENU */}
 
 
+
       <section>
 
-        <h2 className="
-          text-xl
-          font-bold
-          mb-4
-        ">
-          Gestión del club
-        </h2>
+
+      <h2 className="
+        text-xl
+        font-bold
+        mb-4
+      ">
+        Gestión del club
+      </h2>
 
 
 
-        <div className="
-          grid
-          grid-cols-2
-          gap-4
-        ">
+
+      <div className="
+        grid
+        grid-cols-2
+        gap-4
+      ">
 
 
-          {
-            [
-              "👥 Plantilla",
-              "💼 Finanzas",
-              "🔄 Mercado",
-              "📅 Calendario",
-              "🏟 Instalaciones",
-              "📰 Noticias"
-            ]
-            .map(
-              item=>(
 
-                <button
-                  key={item}
-                  className="
-                    bg-zinc-900
-                    rounded-2xl
-                    p-5
-                    hover:bg-zinc-800
-                  "
-                >
-                  {item}
+      {
+        [
+          "👥 Plantilla",
+          "💼 Finanzas",
+          "🔄 Mercado",
+          "📅 Calendario",
+          "🏟 Instalaciones",
+          "📰 Noticias"
 
-                </button>
+        ]
+        .map(
+          item=>(
 
-              )
-            )
+          <button
 
-          }
+          key={item}
+
+          className="
+            bg-zinc-900
+            rounded-2xl
+            p-5
+            hover:bg-zinc-800
+          "
+
+          >
+
+            {item}
+
+          </button>
 
 
-        </div>
+          )
+
+        )
+
+      }
+
+
+
+      </div>
 
 
       </section>
+
+
 
 
 
@@ -492,37 +621,53 @@ export default function Dashboard({
 
 
 
+
 function Stat({
+
   title,
+
   value
+
 }:{
+
   title:string;
+
   value:string|number;
+
 }){
+
 
 return (
 
 <div className="
- bg-zinc-900
- rounded-2xl
- p-4
+bg-zinc-900
+rounded-2xl
+p-4
 ">
 
-<p className="text-zinc-400">
+
+<p className="
+text-zinc-400
+">
+
 {title}
+
 </p>
 
 
 <p className="
- text-xl
- font-bold
+text-xl
+font-bold
 ">
+
 {value}
+
 </p>
 
 
 </div>
 
-)
+);
+
 
 }
