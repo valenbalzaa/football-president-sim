@@ -13,6 +13,9 @@ import {
   type GameState
 } from "./store/gameStore";
 
+import {
+generateSchedule
+} from "./engine/scheduleEngine";
 
 
 function App() {
@@ -28,7 +31,15 @@ function App() {
 
 
   function startGame(
-
+    const schedule =
+    generateSchedule(
+    [
+    "Tu club",
+    ...clubs.map(
+    club=>club.name
+    )
+    ]
+    );
     mode: string,
 
     club: string,
