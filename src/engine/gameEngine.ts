@@ -1,5 +1,8 @@
 import type { GameState } from "../store/gameStore";
 import type { Club } from "../data/clubs";
+import {
+ updateTableAfterMatch
+} from "./tableEngine";
 
 import {
   clubs
@@ -20,6 +23,9 @@ import {
   calculateMatchEconomy
 } from "./economyEngine";
 
+import {
+simulateOtherMatches
+} from "./aiLeagueEngine";
 
 
 
@@ -385,8 +391,41 @@ export function playMatch(
 
   const randomEvent = getRandomEvent();
 
+  const updatedTable = updateTableAfterMatch(
+
+  game.table,
+
+  isHome
+  ? game.club
+  : opponent.name,
+
+  isHome
+  ? opponent.name
+  : game.club,
 
 
+  isHome
+  ? result.homeGoals
+  : result.awayGoals,
+
+
+  isHome
+  ? result.awayGoals
+  : result.homeGoals
+
+  );
+
+  const finalTable = simulateOtherMatches(
+
+    updatedSchedule,
+
+    game.matchday,
+
+    updatedTable,
+
+    game.club
+
+    );
 
 
 
@@ -394,12 +433,13 @@ export function playMatch(
 
 
   const updatedGame:GameState = {
+    
 
 
 
     ...game,
 
-
+    table: finalTable,
 
 
 
@@ -686,52 +726,52 @@ export function playMatch(
     lastMatch:{
 
 
-      home:
+    home:
 
-        isHome
+      isHome
 
-        ? userClub.name
+      ? userClub.name
 
-        : opponent.name,
-
-
-
-      away:
-
-        isHome
-
-        ? opponent.name
-
-        : userClub.name,
+      : opponent.name,
 
 
 
-      homeGoals:
+    away:
 
-        isHome
+      isHome
 
-        ? result.homeGoals
+      ? opponent.name
 
-        : result.awayGoals,
-
-
-
-      awayGoals:
-
-        isHome
-
-        ? result.awayGoals
-
-        : result.homeGoals,
+      : userClub.name,
 
 
 
-      result:
+    homeGoals:
 
-        matchResult
+      isHome
+
+      ? result.homeGoals
+
+      : result.awayGoals,
 
 
-    },
+
+    awayGoals:
+
+      isHome
+
+      ? result.awayGoals
+
+      : result.homeGoals,
+
+
+
+    result:
+
+      matchResult
+
+
+  },
 
 
 

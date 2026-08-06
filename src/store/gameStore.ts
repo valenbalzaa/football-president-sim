@@ -2,10 +2,12 @@ import type { Player } from "../types/player";
 import type { GameEvent } from "../types/event";
 import type { Club } from "../data/clubs";
 import type { Match } from "../types/match";
-
+import type { TableTeam } from "../engine/tableEngine";
 
 
 export type GameState = {
+
+  table: TableTeam[];
   recentResults: (
  "V" | "E" | "D"
   )[];
@@ -142,6 +144,7 @@ export type GameState = {
 
 
 export const initialGameState:GameState = {
+  table: [] as TableTeam[],
   recentResults: [],
   matchChanges:null,
   mode:"",

@@ -3,7 +3,9 @@ import { useState } from "react";
 import Home from "./pages/Home";
 import NewGame from "./pages/NewGame";
 import Dashboard from "./pages/Dashboard";
-
+import {
+ createLeagueTable
+} from "./engine/tableEngine";
 
 import {
   generateLeagueSchedule
@@ -169,6 +171,10 @@ function App(){
 
 
     setGame({
+
+      table:createLeagueTable(
+        leagueTeams
+      ),
 
 
       recentResults: [],

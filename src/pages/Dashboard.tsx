@@ -78,6 +78,7 @@ export default function Dashboard({
 
 
     if(!nextMatch)
+      
       return;
 
 
@@ -791,6 +792,218 @@ VER PRÓXIMO PARTIDO
 
 
 
+
+
+
+
+<section className="
+bg-zinc-900
+rounded-3xl
+p-5
+mb-6
+">
+
+
+<h2 className="
+text-xl
+font-bold
+mb-4
+">
+
+📊 Tabla de posiciones
+
+</h2>
+
+
+<div className="
+flex
+gap-4
+text-xs
+mb-4
+text-zinc-400
+">
+
+<span>
+🟨 Tu club
+</span>
+
+<span>
+🟩 Ascenso directo
+</span>
+
+<span>
+🟦 Playoff
+</span>
+
+</div>
+
+
+<table className="
+w-full
+text-sm
+">
+
+
+<thead>
+
+<tr className="
+text-zinc-400
+">
+
+
+<th className="
+text-left
+">
+
+Equipo
+
+</th>
+
+
+
+<th>
+
+Pts
+
+</th>
+
+
+
+<th>
+PJ
+</th>
+
+<th>
+DG
+</th>
+
+
+</tr>
+
+
+</thead>
+
+
+
+
+
+
+
+<tbody>
+
+
+{
+
+game.table.map(
+
+(team,index)=>(
+
+
+<tr
+
+key={team.name}
+
+className={
+
+team.name === game.club
+
+?
+
+"bg-yellow-900/60 border-l-4 border-yellow-400"
+
+
+:
+
+index < 2
+
+?
+
+"bg-green-700/40"
+
+
+:
+
+index < 6
+
+?
+
+"bg-blue-700/40"
+
+
+:
+
+""
+
+}
+
+>
+
+
+<td className="
+py-2
+">
+
+{index + 1}. {team.name}
+
+</td>
+
+
+
+<td className="
+text-center
+">
+
+{team.points}
+
+</td>
+
+
+
+<td className="
+text-center
+">
+
+{team.played}
+
+</td>
+
+<td className="text-center">
+
+{
+
+team.goalDifference >= 0
+
+?
+
+`+${team.goalDifference}`
+
+:
+
+team.goalDifference
+
+}
+
+</td>
+
+</tr>
+
+
+)
+
+
+)
+
+}
+
+
+
+</tbody>
+
+
+</table>
+
+
+</section>
 
 
 
