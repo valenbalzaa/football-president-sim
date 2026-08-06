@@ -3,6 +3,10 @@ import { useState } from "react";
 import Home from "./pages/Home";
 import NewGame from "./pages/NewGame";
 import Dashboard from "./pages/Dashboard";
+import {
+  getLeagueClubs,
+  addCustomClubToLeague
+} from "./engine/leagueEngine";
 
 import {
   initialGameState,
@@ -20,7 +24,6 @@ function App() {
   const [game, setGame] = useState<GameState>(
     initialGameState
   );
-
 
 
 
@@ -48,29 +51,115 @@ function App() {
 
 
 
-    setGame({
+setGame({
 
-      mode,
+  // ======================
+  // CLUB
+  // ======================
 
+  mode,
+
+  club,
+
+  stadium,
+
+  rival,
+
+  customClub,
+
+
+  // ======================
+  // CAMISETA
+  // ======================
+
+  kitId,
+
+  primaryColor,
+
+  secondaryColor,
+
+
+  // ======================
+  // TEMPORADA
+  // ======================
+
+  season: 2026,
+
+  division: "Primera Divisional C",
+
+  divisionLevel: 3,
+
+  matchday: 1,
+
+  leagueTeams: customClub
+
+  ? addCustomClubToLeague(
       club,
+      "Primera Divisional C"
+    )
 
-      money,
+  : getLeagueClubs(
+      "Primera Divisional C"
+    ),
+  // ======================
+  // ECONOMÍA
+  // ======================
 
-      stadium,
+  money,
 
-      rival,
+  income: 0,
 
-      customClub,
+  expenses: 0,
 
-      kitId,
 
-      primaryColor,
 
-      secondaryColor,
+  // ======================
+  // COMPETICIÓN
+  // ======================
 
-      season: 2026
+  points: 0,
 
-    });
+  position: 16,
+
+  wins: 0,
+
+  draws: 0,
+
+  losses: 0,
+
+
+
+  // ======================
+  // ESTADO DEL CLUB
+  // ======================
+
+  reputation: 10,
+
+  fans: 300,
+
+  morale: 70,
+
+
+
+  // ======================
+  // PLANTEL
+  // ======================
+
+  squad: [],
+
+
+
+  // ======================
+  // EVENTOS
+  // ======================
+
+  news: [
+    `El club ${club} ha sido creado`
+  ],
+
+  activeEvent: null
+
+});
 
 
 
@@ -83,10 +172,7 @@ function App() {
 
 
 
-
-
   if (page === "new") {
-
 
     return (
 
@@ -104,10 +190,7 @@ function App() {
 
 
 
-
-
   if (page === "dashboard") {
-
 
     return (
 
@@ -115,14 +198,13 @@ function App() {
 
         game={game}
 
+        setGame={setGame}
+
       />
 
     );
 
-  }
-
-
-
+}
 
 
 
