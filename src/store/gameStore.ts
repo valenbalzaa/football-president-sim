@@ -48,7 +48,7 @@ export type GameState = {
   leagueTeams:Club[];
   matchday: number;
   fixtures: Match[];
-
+  standings: Standing[];
 
 
   // ======================
@@ -130,7 +130,7 @@ export const initialGameState: GameState = {
 
   customClub: false,
 
-
+  standings: [],
 
   // ======================
   // CAMISETA
