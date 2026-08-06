@@ -1,88 +1,29 @@
-import { clubs } from "../data/clubs";
-import type { Club } from "../data/clubs";
+import type { TableRow } from "../types/table";
 
+export function createLeagueTable(
+  teams: string[]
+): TableRow[] {
 
+  return teams.map(team => ({
 
-/**
- * Devuelve todos los clubes de una división
- */
-export function getLeagueClubs(
-  division: string
-): Club[] {
+    club: team,
 
+    played: 0,
 
-  return clubs.filter(
-    club => club.division === division
-  );
+    wins: 0,
 
-}
+    draws: 0,
 
+    losses: 0,
 
+    goalsFor: 0,
 
-/**
- * Devuelve solamente los nombres
- * de los equipos de una división
- */
-export function getLeagueTeams(
-  division: string
-): string[] {
+    goalsAgainst: 0,
 
+    goalDifference: 0,
 
-  return getLeagueClubs(division)
-    .map(
-      club => club.name
-    );
+    points: 0
 
-}
-
-
-
-/**
- * Agrega un club creado por el usuario
- * a la competición
- */
-export function addCustomClubToLeague(
-
-  customClubName: string,
-
-  division: string
-
-): Club[] {
-
-
-  const customClub: Club = {
-
-    id: 999,
-
-    name: customClubName,
-
-    shortName:
-      customClubName
-        .substring(0,3)
-        .toUpperCase(),
-
-    division,
-
-    city: "Montevideo",
-
-    stadium: "Estadio propio",
-
-    reputation: 10,
-
-    strength: 50,
-
-    budget: 500000
-
-  };
-
-
-
-  return [
-
-    ...getLeagueClubs(division),
-
-    customClub
-
-  ];
+  }));
 
 }
