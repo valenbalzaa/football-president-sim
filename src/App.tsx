@@ -1,4 +1,13 @@
 import { useState } from "react";
+import { clubs } from "./data/clubs";
+
+import {
+  generateSchedule
+} from "./engine/scheduleEngine";
+
+import {
+  createLeagueTable
+} from "./engine/leagueEngine";
 
 import Home from "./pages/Home";
 import NewGame from "./pages/NewGame";
@@ -31,6 +40,15 @@ function App() {
 
 
   function startGame(
+    const leagueTeams = clubs.map(club => club.name);
+    
+    if (!leagueTeams.includes(club)) {
+      leagueTeams.push(club);
+    }
+    
+    const schedule = generateSchedule(leagueTeams);
+    
+    const table = createLeagueTable(leagueTeams);
     const schedule =
     generateSchedule(
     [
@@ -67,7 +85,11 @@ setGame({
   // ======================
   // CLUB
   // ======================
-
+  leagueTeams,
+  
+  schedule,
+  
+  table,
   mode,
 
   club,
