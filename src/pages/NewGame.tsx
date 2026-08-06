@@ -1,12 +1,18 @@
 import { useState } from "react";
+import { clubs } from "../data/clubs";
+
 
 type Props = {
   onStart: (
-    mode:string,
-    club:string,
-    money:number
-  )=>void;
+    mode: string,
+    club: string,
+    money: number,
+    stadium?: string,
+    rival?: string,
+    customClub?: boolean
+  ) => void;
 };
+
 
 const modes = [
   {
@@ -21,30 +27,49 @@ const modes = [
   }
 ];
 
-import { clubs } from "../data/clubs";
 
-export default function NewGame({onStart}:Props) {
+export default function NewGame({ onStart }: Props) {
+
 
   const [selectedMode, setSelectedMode] = useState("");
+
+  const [clubType, setClubType] = useState("");
+
   const [selectedClub, setSelectedClub] = useState("");
 
+  const [clubName, setClubName] = useState("");
+
+  const [stadium, setStadium] = useState("");
+
+  const [rival, setRival] = useState("");
+
+
+
   return (
+
     <main className="
-      min-h-screen 
-      bg-zinc-950 
-      text-white 
-      px-5 
+      min-h-screen
+      bg-zinc-950
+      text-white
+      px-5
       py-8
+      pb-24
     ">
 
+
       <h1 className="
-        text-3xl 
-        font-bold 
+        text-3xl
+        font-bold
         mb-8
       ">
         Nueva Partida
       </h1>
 
+
+
+
+
+      {/* Elegir modo */}
 
       <section className="mb-8">
 
@@ -55,35 +80,47 @@ export default function NewGame({onStart}:Props) {
 
         <div className="space-y-4">
 
-          {modes.map((mode)=>(
-            <button
-              key={mode.id}
-              onClick={()=>setSelectedMode(mode.id)}
-              className={`
-                w-full
-                text-left
-                p-5
-                rounded-2xl
-                border
-                transition
-                ${
-                  selectedMode === mode.id
-                  ? "border-green-500 bg-green-500/20"
-                  : "border-zinc-700 bg-zinc-900"
-                }
-              `}
-            >
 
-              <h3 className="font-bold text-lg">
-                {mode.title}
-              </h3>
+          {
+            modes.map((mode)=>(
 
-              <p className="text-zinc-400 text-sm mt-2">
-                {mode.description}
-              </p>
+              <button
 
-            </button>
-          ))}
+                key={mode.id}
+
+                onClick={()=>setSelectedMode(mode.id)}
+
+                className={`
+                  w-full
+                  p-5
+                  rounded-2xl
+                  border
+                  text-left
+
+                  ${
+                    selectedMode === mode.id
+                    ? "border-green-500 bg-green-500/20"
+                    : "border-zinc-700 bg-zinc-900"
+                  }
+                `}
+
+              >
+
+                <h3 className="font-bold text-lg">
+                  {mode.title}
+                </h3>
+
+
+                <p className="text-zinc-400 mt-2">
+                  {mode.description}
+                </p>
+
+
+              </button>
+
+            ))
+          }
+
 
         </div>
 
@@ -91,71 +128,396 @@ export default function NewGame({onStart}:Props) {
 
 
 
-      <section>
+
+
+      {/* Tipo de club */}
+
+
+      <section className="mb-8">
+
 
         <h2 className="text-xl font-semibold mb-4">
-          Elegí tu club
+          ¿Cómo querés empezar?
         </h2>
 
 
-        <div className="space-y-3">
 
-            {clubs.map((club)=>(
-            <button
-                key={club.id}
-                onClick={()=>setSelectedClub(club.name)}
-                className={`
-                w-full
-                p-4
-                rounded-xl
-                border
-                text-left
-                ${
-                    selectedClub === club.name
-                    ? "border-blue-500 bg-blue-500/20"
-                    : "border-zinc-700 bg-zinc-900"
-                }
-                `}
-            >
+        <div className="space-y-4">
 
-                <h3 className="font-bold text-lg">
-                {club.name}
-                </h3>
 
-                <p className="text-zinc-400 text-sm">
-                {club.city}
-                </p>
 
-                <p className="text-green-400 text-sm mt-2">
-                Reputación: {club.reputation}/100
-                </p>
+          <button
 
-            </button>
-            ))}
+            onClick={()=>setClubType("existing")}
+
+            className={`
+              w-full
+              p-5
+              rounded-2xl
+              border
+              text-left
+
+              ${
+                clubType === "existing"
+                ? "border-blue-500 bg-blue-500/20"
+                : "border-zinc-700 bg-zinc-900"
+              }
+
+            `}
+
+          >
+
+            <h3 className="font-bold text-lg">
+              ⚽ Elegir club existente
+            </h3>
+
+
+            <p className="text-zinc-400 mt-2">
+              Comenzá con un club real.
+            </p>
+
+
+          </button>
+
+
+
+
+          <button
+
+            onClick={()=>setClubType("custom")}
+
+            className={`
+              w-full
+              p-5
+              rounded-2xl
+              border
+              text-left
+
+              ${
+                clubType === "custom"
+                ? "border-purple-500 bg-purple-500/20"
+                : "border-zinc-700 bg-zinc-900"
+              }
+
+            `}
+
+          >
+
+            <h3 className="font-bold text-lg">
+              🏗️ Crear tu propio club
+            </h3>
+
+
+            <p className="text-zinc-400 mt-2">
+              Fundá un equipo desde cero.
+            </p>
+
+
+          </button>
+
+
 
         </div>
 
+
       </section>
 
+
+
+
+
+
+
+      {/* Club existente */}
+
+
+      {
+        clubType === "existing" && (
+
+
+          <section className="mb-8">
+
+
+            <h2 className="text-xl font-semibold mb-4">
+              Elegí tu club
+            </h2>
+
+
+
+            <div className="space-y-3">
+
+
+              {
+                clubs.map((club)=>(
+
+
+                  <button
+
+                    key={club.id}
+
+                    onClick={()=>setSelectedClub(club.name)}
+
+                    className={`
+                      w-full
+                      p-4
+                      rounded-xl
+                      border
+                      text-left
+
+                      ${
+                        selectedClub === club.name
+                        ? "border-blue-500 bg-blue-500/20"
+                        : "border-zinc-700 bg-zinc-900"
+                      }
+
+                    `}
+
+                  >
+
+
+                    <h3 className="font-bold text-lg">
+                      {club.name}
+                    </h3>
+
+
+                    <p className="text-zinc-400">
+                      {club.city}
+                    </p>
+
+
+                    <p className="text-green-400 text-sm mt-2">
+                      Reputación: {club.reputation}/100
+                    </p>
+
+
+                  </button>
+
+
+                ))
+              }
+
+
+            </div>
+
+
+          </section>
+
+
+        )
+      }
+
+
+
+
+
+
+
+      {/* Crear club */}
+
+
+      {
+        clubType === "custom" && (
+
+
+          <section className="mb-8">
+
+
+            <h2 className="text-xl font-semibold mb-4">
+              Crear club
+            </h2>
+
+
+
+
+            <input
+
+              placeholder="Nombre del club"
+
+              value={clubName}
+
+              onChange={(e)=>setClubName(e.target.value)}
+
+              className="
+                w-full
+                bg-zinc-900
+                border
+                border-zinc-700
+                rounded-xl
+                p-4
+                mb-3
+              "
+
+            />
+
+
+
+
+
+            <input
+
+              placeholder="Nombre del estadio"
+
+              value={stadium}
+
+              onChange={(e)=>setStadium(e.target.value)}
+
+              className="
+                w-full
+                bg-zinc-900
+                border
+                border-zinc-700
+                rounded-xl
+                p-4
+                mb-3
+              "
+
+            />
+
+
+
+
+
+            <select
+
+              value={rival}
+
+              onChange={(e)=>setRival(e.target.value)}
+
+              className="
+                w-full
+                bg-zinc-900
+                border
+                border-zinc-700
+                rounded-xl
+                p-4
+              "
+
+            >
+
+              <option value="">
+                Elegí el clásico rival
+              </option>
+
+
+              {
+                clubs.map((club)=>(
+
+                  <option
+                    key={club.id}
+                    value={club.name}
+                  >
+                    {club.name}
+                  </option>
+
+                ))
+              }
+
+
+            </select>
+
+
+
+          </section>
+
+
+        )
+      }
+
+
+
+
+
+
+
+
+
+      {/* Botón continuar */}
 
 
       <button
 
-        disabled={!selectedMode || !selectedClub}
+
+        disabled={
+
+          !selectedMode ||
+
+          !clubType ||
+
+          (
+            clubType === "existing" &&
+            !selectedClub
+          )
+
+          ||
+
+          (
+            clubType === "custom" &&
+            (
+              !clubName ||
+              !stadium ||
+              !rival
+            )
+          )
+
+        }
+
+
 
         onClick={()=>{
 
-        const clubData = clubs.find(
-        c=>c.name===selectedClub
-        );
 
-        onStart(
-        selectedMode,
-        selectedClub,
-        clubData?.budget || 0
-        );
+          if(clubType === "custom"){
+
+
+            onStart(
+
+              selectedMode,
+
+              clubName,
+
+              50000,
+
+              stadium,
+
+              rival,
+
+              true
+
+            );
+
+
+            return;
+
+          }
+
+
+
+          const clubData = clubs.find(
+            c=>c.name === selectedClub
+          );
+
+
+
+          onStart(
+
+            selectedMode,
+
+            selectedClub,
+
+            clubData?.budget || 0,
+
+            "",
+
+            "",
+
+            false
+
+          );
+
 
         }}
+
+
 
         className="
           fixed
@@ -169,11 +531,18 @@ export default function NewGame({onStart}:Props) {
           font-bold
           text-lg
         "
+
       >
+
         Continuar
+
+
       </button>
 
 
+
     </main>
+
   );
+
 }

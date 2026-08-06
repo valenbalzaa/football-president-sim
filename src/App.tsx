@@ -13,54 +13,90 @@ import {
 function App() {
 
 
-  const [page,setPage] = useState("home");
+  const [page, setPage] = useState("home");
 
 
-  const [game,setGame] = useState<GameState>(
+  const [game, setGame] = useState<GameState>(
     initialGameState
   );
 
 
+
   function startGame(
-    mode:string,
-    club:string,
-    money:number
-  ){
+    mode: string,
+    club: string,
+    money: number,
+    stadium: string = "",
+    rival: string = "",
+    customClub: boolean = false
+  ) {
+
 
     setGame({
+
       mode,
+
       club,
+
       money,
-      season:2026
+
+      stadium,
+
+      rival,
+
+      customClub,
+
+      season: 2026
+
     });
 
 
     setPage("dashboard");
+
   }
 
 
 
-  if(page==="new"){
+
+  if(page === "new"){
+
     return (
-      <NewGame 
+
+      <NewGame
         onStart={startGame}
       />
+
     );
+
   }
 
 
-  if(page==="dashboard"){
+
+
+  if(page === "dashboard"){
+
     return (
-      <Dashboard game={game}/>
+
+      <Dashboard
+        game={game}
+      />
+
     );
+
   }
+
+
 
 
 
   return (
-    <Home 
+
+    <Home
+
       onNewGame={()=>setPage("new")}
+
     />
+
   );
 
 }
