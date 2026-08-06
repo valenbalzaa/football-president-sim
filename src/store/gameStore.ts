@@ -46,6 +46,7 @@ export type GameState = {
 
   leagueTeams:Club[];
   matchday: number;
+  fixtures: Match[];
 
 
 
