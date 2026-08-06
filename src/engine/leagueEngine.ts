@@ -7,26 +7,160 @@ import type { Match } from "../types/match";
 
 export function generateLeagueSchedule(
 
-  teams:Club[]
+  teams: Club[]
 
-):Match[]{
-
-
-
-  const matches:Match[]=[];
-
-
-  let id=1;
-
-  let matchday=1;
+): Match[] {
 
 
 
-
-  const list=[...teams];
-
+  const matches: Match[] = [];
 
 
+
+  let id = 1;
+
+  let matchday = 1;
+
+
+
+
+
+  const createRound = (
+
+    teams: Club[],
+
+    reverse:boolean
+
+  ) => {
+
+
+
+    const list = [...teams];
+
+
+
+    const total = list.length;
+
+
+    const gamesPerRound = total / 2;
+
+
+
+
+
+    for(
+
+      let i = 0;
+
+      i < gamesPerRound;
+
+      i++
+
+    ){
+
+
+
+      let home = list[i];
+
+
+      let away = list[total - 1 - i];
+
+
+
+
+
+
+
+      if(
+
+        home.name !== "DESCANSA"
+
+        &&
+
+        away.name !== "DESCANSA"
+
+      ){
+
+
+
+        if(reverse){
+
+
+          const temp = home;
+
+
+          home = away;
+
+
+          away = temp;
+
+
+        }
+
+
+
+
+
+
+
+        matches.push({
+
+
+          id:id++,
+
+
+          matchday,
+
+
+          home:home.name,
+
+
+          away:away.name,
+
+
+          played:false
+
+
+
+        });
+
+
+
+
+      }
+
+
+
+    }
+
+
+
+
+
+    matchday++;
+
+
+
+
+  };
+
+
+
+
+
+
+
+
+
+  const list = [...teams];
+
+
+
+
+
+
+
+  // Si hay cantidad impar agregamos descanso
 
   if(list.length % 2 !== 0){
 
@@ -65,6 +199,7 @@ export function generateLeagueSchedule(
     });
 
 
+
   }
 
 
@@ -72,23 +207,37 @@ export function generateLeagueSchedule(
 
 
 
-  const total=list.length;
+
+  const total = list.length;
 
 
-  const rounds=total-1;
-
-
-  const gamesPerRound=total/2;
+  const rounds = total - 1;
 
 
 
+
+
+
+  let rotation = [...list];
+
+
+
+
+
+
+
+
+
+  // =========================
+  // PRIMERA RUEDA
+  // =========================
 
 
   for(
 
-    let round=0;
+    let round = 0;
 
-    round<rounds;
+    round < rounds;
 
     round++
 
@@ -96,76 +245,26 @@ export function generateLeagueSchedule(
 
 
 
-    for(
+    createRound(
 
-      let i=0;
+      rotation,
 
-      i<gamesPerRound;
+      round % 2 === 1
 
-      i++
-
-    ){
-
-
-
-      const home=list[i];
-
-
-      const away=list[total-1-i];
+    );
 
 
 
 
 
-      if(
-
-        home.name !== "DESCANSA"
-
-        &&
-
-        away.name !== "DESCANSA"
-
-      ){
 
 
-
-        matches.push({
-
-
-          id:id++,
+    const fixed = rotation[0];
 
 
-          matchday,
+    const rotating = rotation.slice(1);
 
 
-          home:home.name,
-
-
-          away:away.name,
-
-
-          played:false
-
-
-
-        });
-
-
-
-      }
-
-
-
-    }
-
-
-
-
-
-    const fixed=list[0];
-
-
-    const rotating=list.slice(1);
 
 
 
@@ -177,18 +276,61 @@ export function generateLeagueSchedule(
 
 
 
-    list.splice(
 
-      0,
 
-      list.length,
+    rotation = [
 
       fixed,
 
       ...rotating
 
-    );
+    ];
 
+
+
+  }
+
+
+
+
+
+
+
+
+
+  // =========================
+  // SEGUNDA RUEDA
+  // =========================
+
+
+  const firstRound = [...matches];
+
+
+
+  firstRound.forEach(match => {
+
+
+
+    matches.push({
+
+
+      id:id++,
+
+
+      matchday,
+
+
+      home:match.away,
+
+
+      away:match.home,
+
+
+      played:false
+
+
+
+    });
 
 
 
@@ -196,8 +338,9 @@ export function generateLeagueSchedule(
 
 
 
+  });
 
-  }
+
 
 
 

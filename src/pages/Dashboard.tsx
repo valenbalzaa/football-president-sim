@@ -1,4 +1,7 @@
-import React from "react";
+import React, {
+  useState
+} from "react";
+
 
 import type {
   GameState
@@ -30,6 +33,7 @@ type Props = {
 
 
 
+
 export default function Dashboard({
 
   game,
@@ -37,6 +41,14 @@ export default function Dashboard({
   setGame
 
 }: Props) {
+
+
+
+
+  const [
+    showNextMatch,
+    setShowNextMatch
+  ] = useState(false);
 
 
 
@@ -65,7 +77,6 @@ export default function Dashboard({
   function handlePlayMatch(){
 
 
-
     if(!nextMatch)
       return;
 
@@ -85,6 +96,7 @@ export default function Dashboard({
 
 
 
+
     const updatedGame =
 
       playMatch(
@@ -99,8 +111,11 @@ export default function Dashboard({
 
 
 
+
     setGame(updatedGame);
 
+
+    setShowNextMatch(false);
 
 
   }
@@ -113,7 +128,6 @@ export default function Dashboard({
 
 
 return (
-
 
 <main className="
 min-h-screen
@@ -128,8 +142,6 @@ p-5
 
 
 
-{/* HEADER */}
-
 <section className="
 bg-zinc-900
 rounded-3xl
@@ -138,7 +150,10 @@ mb-6
 ">
 
 
-<p className="text-zinc-400 text-sm">
+<p className="
+text-zinc-400
+text-sm
+">
 
 Presidente
 
@@ -157,7 +172,9 @@ font-bold
 
 
 
-<p className="text-zinc-400">
+<p className="
+text-zinc-400
+">
 
 {game.division}
 
@@ -174,15 +191,13 @@ font-bold
 
 
 
-
-{/* ESTADISTICAS */}
-
 <section className="
 grid
 grid-cols-2
 gap-4
 mb-6
 ">
+
 
 
 <Stat
@@ -201,12 +216,11 @@ value={
 
 <Stat
 
-title="👥 Hinchas"
+title="👥 Socios"
 
 value={game.fans}
 
 />
-
 
 
 
@@ -239,8 +253,6 @@ value={game.reputation}
 
 
 
-
-{/* CAMPEONATO */}
 
 <section className="
 bg-zinc-900
@@ -305,8 +317,6 @@ Fecha {game.matchday}
 
 
 
-{/* PARTIDO */}
-
 <section className="
 bg-gradient-to-r
 from-blue-900
@@ -337,15 +347,31 @@ mb-4
 
 {
 
-game.lastMatch ? (
+game.lastMatch && !showNextMatch
 
+?
 
 
 <div>
 
 
+
+<h3 className="
+text-lg
+font-bold
+mb-4
+">
+
+Último resultado
+
+</h3>
+
+
+
+
+
 <p className="
-text-3xl
+text-4xl
 font-bold
 text-center
 ">
@@ -357,6 +383,8 @@ text-center
 {game.lastMatch.awayGoals}
 
 </p>
+
+
 
 
 
@@ -375,6 +403,8 @@ vs
 
 
 
+
+
 <p className="
 text-center
 text-zinc-300
@@ -386,18 +416,229 @@ mt-3
 </p>
 
 
+
+
+
+
+
+
+
+<div className="
+mt-5
+bg-zinc-800
+rounded-xl
+p-4
+">
+
+
+<p className="
+font-bold
+mb-3
+">
+
+📈 Cambios del partido
+
+</p>
+
+
+
+
+
+{
+
+game.matchChanges &&
+
+<>
+
+
+
+<p className="text-zinc-300">
+🏟 Entradas vendidas: {
+  game.matchChanges?.attendance ?? 0
+}
+</p>
+
+
+<p className="text-zinc-300">
+💰 Ingresos: {
+  game.matchChanges?.money >= 0
+  ? "+$" + game.matchChanges.money.toLocaleString()
+  : "-$" + Math.abs(game.matchChanges.money).toLocaleString()
+} (
+{
+  game.matchChanges?.money >= 0
+  ? "+"
+  : ""
+}
+
+{
+  Math.floor(
+    Math.abs(game.matchChanges?.money ?? 0) / 40
+  )
+}
+
+USD)
+
+</p>
+
+
+
+
+
+
+<p className="
+text-zinc-300
+">
+
+👥 Socios:
+
+<span className="
+ml-2
+">
+
+{
+
+game.matchChanges.fans >= 0
+
+?
+
+`+${game.matchChanges.fans}`
+
+:
+
+game.matchChanges.fans
+
+}
+
+</span>
+
+</p>
+
+
+
+
+
+
+<p className="
+text-zinc-300
+">
+
+🧠 Moral:
+
+<span className="
+ml-2
+">
+
+{
+
+game.matchChanges.morale >= 0
+
+?
+
+`+${game.matchChanges.morale}%`
+
+:
+
+`${game.matchChanges.morale}%`
+
+}
+
+</span>
+
+</p>
+
+
+
+
+
+
+<p className="
+text-zinc-300
+">
+
+⭐ Reputación:
+
+<span className="
+ml-2
+">
+
+{
+
+game.matchChanges.reputation >= 0
+
+?
+
+`+${game.matchChanges.reputation}`
+
+:
+
+game.matchChanges.reputation
+
+}
+
+</span>
+
+</p>
+
+
+
+
+</>
+
+}
+
+
+
+
+
 </div>
 
 
 
-)
+
+
+
+
+
+
+<button
+
+onClick={() => setShowNextMatch(true)}
+
+className="
+mt-5
+w-full
+bg-blue-600
+hover:bg-blue-700
+rounded-xl
+py-3
+font-bold
+"
+
+>
+
+PRÓXIMO PARTIDO
+
+</button>
+
+
+
+
+</div>
+
+
+
+
+
 
 
 
 :
 
-nextMatch ? (
 
+nextMatch && showNextMatch
+
+?
 
 
 <div>
@@ -430,6 +671,7 @@ vs
 
 
 
+
 <p className="
 text-sm
 text-zinc-400
@@ -456,51 +698,84 @@ nextMatch.home === game.club
 
 
 
+
+
 <button
 
 onClick={handlePlayMatch}
 
-disabled={!nextMatch}
-
 className="
 mt-5
 w-full
-bg-blue-600
-hover:bg-blue-700
-disabled:bg-zinc-700
+bg-green-600
+hover:bg-green-700
 rounded-xl
 py-3
 font-bold
 "
 
 >
-{
-nextMatch
-?
-"JUGAR PARTIDO"
-:
-"TEMPORADA FINALIZADA"
-}
+
+JUGAR PARTIDO
+
 </button>
+
 
 
 </div>
 
 
 
-)
+
+
 
 
 
 :
 
 
+<div>
 
-<p className="text-zinc-400">
 
-No hay partido programado
+<p className="
+text-zinc-400
+">
+
+Todavía no jugaste ningún partido.
 
 </p>
+
+
+
+
+{
+
+nextMatch &&
+
+<button
+
+onClick={() => setShowNextMatch(true)}
+
+className="
+mt-5
+w-full
+bg-blue-600
+rounded-xl
+py-3
+font-bold
+"
+
+>
+
+VER PRÓXIMO PARTIDO
+
+</button>
+
+}
+
+
+
+</div>
 
 
 
@@ -519,8 +794,6 @@ No hay partido programado
 
 
 
-{/* NOTICIAS */}
-
 <section className="
 bg-zinc-900
 rounded-3xl
@@ -538,6 +811,7 @@ mb-4
 📰 Noticias
 
 </h2>
+
 
 
 
@@ -571,7 +845,6 @@ mb-2
 </p>
 
 
-
 )
 
 
@@ -592,8 +865,6 @@ mb-2
 
 
 
-{/* MENU */}
-
 <section>
 
 
@@ -610,12 +881,12 @@ Gestión del club
 
 
 
-
 <div className="
 grid
 grid-cols-2
 gap-4
 ">
+
 
 
 {
@@ -636,7 +907,7 @@ gap-4
 
 ]
 
-.map(item=>(
+.map(item => (
 
 
 <button
@@ -655,6 +926,7 @@ hover:bg-zinc-800
 {item}
 
 </button>
+
 
 
 ))
@@ -702,12 +974,10 @@ title:string;
 
 value:string | number;
 
-
 }){
 
 
 return (
-
 
 <div className="
 bg-zinc-900
@@ -716,7 +986,9 @@ p-4
 ">
 
 
-<p className="text-zinc-400">
+<p className="
+text-zinc-400
+">
 
 {title}
 
@@ -736,7 +1008,6 @@ font-bold
 
 
 </div>
-
 
 );
 

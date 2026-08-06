@@ -6,8 +6,9 @@ import type { Match } from "../types/match";
 
 
 export type GameState = {
-
-
+  recentResults: (
+ "V" | "E" | "D"
+  )[];
   // CLUB
 
   mode: string;
@@ -48,13 +49,24 @@ export type GameState = {
 
 
 
-  // ECONOMIA
+// ECONOMIA
 
   money:number;
 
   income:number;
 
   expenses:number;
+
+
+  // ESTADIO
+
+  ticketPrice:number;
+
+  attendance:number;
+
+  matchIncome:number;
+
+  matchExpenses:number;
 
 
 
@@ -95,7 +107,17 @@ export type GameState = {
   activeEvent:GameEvent | null;
 
 
+    // CAMBIOS DEL ULTIMO PARTIDO
 
+  matchChanges:{
+    fans:number;
+    morale:number;
+    money:number;
+    reputation:number;
+    attendance:number;
+    income:number;
+    expenses:number;
+  } | null;
   // ULTIMO PARTIDO
 
   lastMatch:{
@@ -120,8 +142,8 @@ export type GameState = {
 
 
 export const initialGameState:GameState = {
-
-
+  recentResults: [],
+  matchChanges:null,
   mode:"",
 
   club:"",
@@ -159,11 +181,24 @@ export const initialGameState:GameState = {
 
 
 
+// ECONOMÍA
+
   money:500000,
 
   income:0,
 
   expenses:0,
+
+
+  // ESTADIO
+
+  ticketPrice:150,
+
+  attendance:0,
+
+  matchIncome:0,
+
+  matchExpenses:0,
 
 
 

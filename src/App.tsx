@@ -26,15 +26,16 @@ import {
 
 
 
+
 function App(){
 
 
 
-  const [page,setPage]=useState("home");
+  const [page,setPage] = useState("home");
 
 
 
-  const [game,setGame]=useState<GameState>(
+  const [game,setGame] = useState<GameState>(
     initialGameState
   );
 
@@ -54,20 +55,21 @@ function App(){
 
     money:number,
 
-    stadium:string="",
+    stadium:string = "",
 
-    rival:string="",
+    rival:string = "",
 
-    customClub:boolean=false,
+    customClub:boolean = false,
 
-    kitId:number=1,
+    kitId:number = 1,
 
-    primaryColor:string="#2563EB",
+    primaryColor:string = "#2563EB",
 
-    secondaryColor:string="#FFFFFF"
+    secondaryColor:string = "#FFFFFF"
 
 
   ){
+
 
 
 
@@ -140,8 +142,9 @@ function App(){
       ]
 
 
-
     : clubs;
+
+
 
 
 
@@ -168,6 +171,7 @@ function App(){
     setGame({
 
 
+      recentResults: [],
       mode,
 
 
@@ -184,6 +188,7 @@ function App(){
 
 
 
+
       kitId,
 
 
@@ -195,6 +200,8 @@ function App(){
 
 
 
+
+
       season:2026,
 
 
@@ -202,6 +209,7 @@ function App(){
 
 
       divisionLevel:3,
+
 
 
 
@@ -220,6 +228,8 @@ function App(){
 
 
 
+
+
       money,
 
 
@@ -227,6 +237,23 @@ function App(){
 
 
       expenses:0,
+
+
+
+
+      ticketPrice:150,
+
+
+      attendance:0,
+
+
+      matchIncome:0,
+
+
+      matchExpenses:0,
+
+
+
 
 
 
@@ -250,6 +277,9 @@ function App(){
 
 
 
+
+
+
       reputation:10,
 
 
@@ -262,7 +292,13 @@ function App(){
 
 
 
+
+
+
       squad:[],
+
+
+
 
 
 
@@ -278,7 +314,24 @@ function App(){
 
 
 
+
+
+
+      matchChanges:null,
+
+
+
+
+
+
+
+
       activeEvent:null,
+
+
+
+
+
 
 
 
@@ -292,7 +345,10 @@ function App(){
 
 
 
+
+
     setPage("dashboard");
+
 
 
   }
@@ -306,7 +362,10 @@ function App(){
 
 
 
+
+
   if(page==="new"){
+
 
 
     return (
@@ -330,7 +389,12 @@ function App(){
 
 
 
+
+
+
+
   if(page==="dashboard"){
+
 
 
     return (
@@ -346,7 +410,6 @@ function App(){
 
       />
 
-
     );
 
 
@@ -359,7 +422,12 @@ function App(){
 
 
 
+
+
+
+
   return (
+
 
 
     <Home
@@ -375,11 +443,14 @@ function App(){
     />
 
 
+
   );
 
 
 
 }
+
+
 
 
 

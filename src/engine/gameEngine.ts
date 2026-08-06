@@ -16,6 +16,11 @@ import {
 } from "./eventEngine";
 
 
+import {
+  calculateMatchEconomy
+} from "./economyEngine";
+
+
 
 
 
@@ -23,11 +28,11 @@ import {
 
 export function playMatch(
 
-  game:GameState,
+  game: GameState,
 
-  opponentName:string
+  opponentName: string
 
-):GameState {
+): GameState {
 
 
 
@@ -41,12 +46,16 @@ export function playMatch(
 
 
 
+
   if(!opponent){
 
 
     console.error(
+
       "No se encontró rival:",
+
       opponentName
+
     );
 
 
@@ -61,7 +70,10 @@ export function playMatch(
 
 
 
+
+
   const userClub:Club = {
+
 
 
     id:999,
@@ -81,36 +93,45 @@ export function playMatch(
 
 
     division:
+
       game.division,
 
 
+
     city:
+
       "Montevideo",
 
 
 
     stadium:
+
       game.stadium,
 
 
 
     reputation:
+
       game.reputation,
 
 
 
     strength:
+
       calculateTeamStrength(game),
 
 
 
     budget:
+
       game.money,
 
 
 
     fans:
+
       game.fans,
+
 
 
     youthLevel:50,
@@ -123,10 +144,12 @@ export function playMatch(
 
 
     objective:
-      "Ascender"
+
+      "Salvarse"
 
 
   };
+
 
 
 
@@ -148,28 +171,211 @@ export function playMatch(
 
 
 
+
+
+
+  const currentMatch = game.schedule.find(
+
+    match =>
+
+      !match.played &&
+
+      (
+        match.home === game.club ||
+        match.away === game.club
+      )
+
+  );
+
+
+
+  const isHome =
+
+    currentMatch?.home === game.club;
+
+
+
+
+
+
+
+
+
+  const economy = calculateMatchEconomy(
+
+    game,
+
+    opponent,
+
+    isHome
+
+  );
+
+
+
+
+
+
+
+
+
   const updatedSchedule =
+
     game.schedule.map(match => {
 
+
+
       if(
+
         match.matchday === game.matchday &&
+
         !match.played &&
+
         (
+
           match.home === game.club ||
+
           match.away === game.club
+
         )
+
       ){
 
+
         return {
+
+
           ...match,
+
+
           played:true
+
+
         };
+
 
       }
 
+
+
       return match;
 
+
     });
+
+
+
+
+
+
+
+
+
+  // ==========================
+  // CAMBIOS DEL CLUB
+  // ==========================
+
+
+  let membersChange = 0;
+
+  let moraleChange = 0;
+
+  let reputationChange = 0;
+
+  let matchResult = "";
+
+  let resultLetter:
+    "V" | "E" | "D";
+
+
+
+
+
+
+
+
+
+  if(result.pointsHome === 3){
+
+
+
+    membersChange = 5;
+
+    moraleChange = 5;
+
+    reputationChange = 1;
+
+    matchResult = "Victoria";
+
+    resultLetter = "V";
+
+
+  }
+
+
+
+
+
+
+  else if(result.pointsHome === 1){
+
+
+
+    membersChange = 1;
+
+    moraleChange = 1;
+
+    reputationChange = 0;
+
+    matchResult = "Empate";
+
+    resultLetter = "E";
+
+
+  }
+
+
+
+
+
+
+  else{
+
+
+
+    membersChange = -1;
+
+    moraleChange = -5;
+
+    reputationChange = -1;
+
+    matchResult = "Derrota";
+
+    resultLetter = "D";
+
+
+  }
+
+
+
+
+
+
+
+
+
+  const updatedRecentResults = [
+
+
+    ...(game.recentResults ?? []),
+
+
+    resultLetter
+
+
+  ].slice(-5);
+
+
 
 
 
@@ -185,16 +391,27 @@ export function playMatch(
 
 
 
+
+
   const updatedGame:GameState = {
+
 
 
     ...game,
 
 
 
+
+
+
+
     schedule:
 
       updatedSchedule,
+
+
+
+
 
 
 
@@ -206,11 +423,19 @@ export function playMatch(
 
 
 
+
+
+
+
     points:
 
       game.points +
 
       result.pointsHome,
+
+
+
+
 
 
 
@@ -234,6 +459,10 @@ export function playMatch(
 
 
 
+
+
+
+
     draws:
 
       game.draws +
@@ -247,6 +476,10 @@ export function playMatch(
         : 0
 
       ),
+
+
+
+
 
 
 
@@ -272,9 +505,177 @@ export function playMatch(
 
 
 
+
+
     money:
 
-      game.money + 15000,
+      game.money +
+
+      Math.floor(economy.balance / 40),
+
+
+
+
+
+
+
+
+
+    income:
+
+      game.income +
+
+      economy.income,
+
+
+
+
+
+
+
+
+
+    expenses:
+
+      game.expenses +
+
+      economy.expenses,
+
+
+
+
+
+
+
+
+
+    // SOCIOS
+
+    fans:
+
+      Math.max(
+
+        0,
+
+        game.fans +
+
+        membersChange
+
+      ),
+
+
+
+
+
+
+
+
+
+    morale:
+
+      Math.min(
+
+        100,
+
+        Math.max(
+
+          0,
+
+          game.morale +
+
+          moraleChange
+
+        )
+
+      ),
+
+
+
+
+
+
+
+
+
+    reputation:
+
+      Math.max(
+
+        1,
+
+        game.reputation +
+
+        reputationChange
+
+      ),
+
+
+
+
+
+
+
+
+
+    recentResults:
+
+      updatedRecentResults,
+
+
+
+
+
+
+
+
+
+    matchChanges:{
+
+
+      fans:
+
+        membersChange,
+
+
+
+      morale:
+
+        moraleChange,
+
+
+
+      money:
+
+        economy.balance,
+
+
+
+      reputation:
+
+        reputationChange,
+
+
+
+      attendance:
+
+        economy.attendance,
+
+
+
+      income:
+
+        economy.income,
+
+
+
+      expenses:
+
+        economy.expenses
+
+
+    },
+
+
 
 
 
@@ -287,43 +688,47 @@ export function playMatch(
 
       home:
 
-        userClub.name,
+        isHome
+
+        ? userClub.name
+
+        : opponent.name,
+
 
 
       away:
 
-        opponent.name,
+        isHome
+
+        ? opponent.name
+
+        : userClub.name,
 
 
 
       homeGoals:
 
-        result.homeGoals,
+        isHome
+
+        ? result.homeGoals
+
+        : result.awayGoals,
 
 
 
       awayGoals:
 
-        result.awayGoals,
+        isHome
+
+        ? result.awayGoals
+
+        : result.homeGoals,
 
 
 
       result:
 
-        result.pointsHome === 3
-
-        ? "Victoria"
-
-        :
-
-        result.pointsHome === 1
-
-        ? "Empate"
-
-        :
-
-        "Derrota"
-
+        matchResult
 
 
     },
@@ -334,17 +739,47 @@ export function playMatch(
 
 
 
+
+
     news:[
+
 
 
       ...game.news,
 
 
 
-      `${userClub.name} ${result.homeGoals}-${result.awayGoals} ${opponent.name}`
+      `${userClub.name} ${result.homeGoals}-${result.awayGoals} ${opponent.name}`,
+
+
+
+      `🏟 Asistencia: ${economy.attendance} personas`,
+
+
+      `👥 Socios: ${
+        membersChange >= 0
+        ? "+"
+        : ""
+      }${membersChange}`,
+
+
+      `💰 Balance partido: ${
+        economy.balance >= 0
+        ? "+"
+        : ""
+      }$${economy.balance}`,
+
+
+
+      `📊 Racha últimos partidos: ${updatedRecentResults.join(" - ")}`
+
 
 
     ],
+
+
+
+
 
 
 
@@ -356,7 +791,11 @@ export function playMatch(
 
 
 
+
+
   };
+
+
 
 
 
@@ -399,6 +838,8 @@ function calculateTeamStrength(
 
 
 
+
+
   const total =
 
     game.squad.reduce(
@@ -418,6 +859,8 @@ function calculateTeamStrength(
 
 
 
+
+
   return Math.floor(
 
     total /
@@ -425,7 +868,6 @@ function calculateTeamStrength(
     game.squad.length
 
   );
-
 
 
 }
