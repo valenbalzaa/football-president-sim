@@ -1,5 +1,6 @@
 import type { GameState } from "../store/gameStore";
 import type { Club } from "../data/clubs";
+import { getRandomEvent } from "./eventEngine";
 
 import {
   simulateMatch
