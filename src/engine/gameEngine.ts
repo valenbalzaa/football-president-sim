@@ -415,17 +415,12 @@ export function playMatch(
 
   );
 
-  const finalTable = simulateOtherMatches(
-
-    updatedSchedule,
-
-    game.matchday,
-
-    updatedTable,
-
-    game.club
-
-    );
+  const simulation = simulateOtherMatches(
+  updatedSchedule,
+  game.matchday,
+  updatedTable,
+  game.club
+  );
 
 
 
@@ -439,7 +434,7 @@ export function playMatch(
 
     ...game,
 
-    table: finalTable,
+      table: simulation.table,
 
 
 
@@ -447,7 +442,7 @@ export function playMatch(
 
     schedule:
 
-      updatedSchedule,
+      schedule: simulation.schedule,
 
 
 
