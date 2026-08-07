@@ -1,13 +1,10 @@
 import type { GameState } from "../store/gameStore";
-import type { Club } from "../data/clubs";
 
 
 
 export function calculateMatchEconomy(
 
   game: GameState,
-
-  opponent: Club,
 
   isHome: boolean
 

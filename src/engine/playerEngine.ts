@@ -137,7 +137,7 @@ export function generateInitialSquad(
 
     .map(
 
-      (player,index)=>({
+      (player)=>({
 
 
         id:
