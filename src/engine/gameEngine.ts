@@ -211,7 +211,7 @@ export function playMatch(
 
     game,
 
-    opponent,
+    opponent.name,
 
     isHome
 

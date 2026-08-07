@@ -3,13 +3,10 @@ import type { GameState } from "../store/gameStore";
 
 
 export function calculateMatchEconomy(
-
   game: GameState,
-
+  _opponent: string,
   isHome: boolean
-
 ){
-
 
 
   let attendance = 0;
