@@ -1,6 +1,7 @@
 import players from "../database/players.json";
 
 import type { Player } from "../types/player";
+import { playerDatabase } from "./playerDatabase";
 
 
 
@@ -43,7 +44,7 @@ export function generateInitialSquad(
 
   let available =
 
-    [...players];
+    [...playerDatabase];
 
 
 

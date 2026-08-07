@@ -26,6 +26,5 @@ export interface Player {
 
  morale:number;
 
- fitness:number;
 
 }

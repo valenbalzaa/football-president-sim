@@ -1,17 +1,39 @@
-import players from "../database/players_clean.json";
-import type { GameState } from "../store/gameStore";
-import { normalizeClub } from "../engine/clubNormalize";
+import {
+  playerDatabase
+} from "../engine/playerDatabase";
+
+import type {
+  GameState
+} from "../store/gameStore";
+
+import {
+  normalizeClub
+} from "../engine/clubNormalize";
 
 
 interface Props {
+
   game: GameState;
+
+  setPage: React.Dispatch<
+    React.SetStateAction<string>
+  >;
+
 }
 
 
-export default function Squad({ game }: Props) {
+
+export default function Squad({
+
+  game,
+
+  setPage
+
+}: Props) {
 
 
-  const squad = players.filter(player => {
+
+  const squad = playerDatabase.filter(player => {
 
     return (
       normalizeClub(player.club) ===
@@ -21,18 +43,6 @@ export default function Squad({ game }: Props) {
   });
 
 
-
-  console.log("CLUB DEL JUEGO:", game.club);
-
-  console.log(
-    "JUGADORES ENCONTRADOS:",
-    squad.length
-  );
-
-  console.log(
-    "CLUBES DISPONIBLES:",
-    [...new Set(players.map(p => normalizeClub(p.club)))]
-  );
 
 
 
@@ -46,6 +56,30 @@ export default function Squad({ game }: Props) {
       p-5
       "
     >
+
+
+      <button
+
+        onClick={() => setPage("dashboard")}
+
+        className="
+        mb-5
+        bg-blue-600
+        hover:bg-blue-700
+        rounded-xl
+        px-5
+        py-3
+        font-bold
+        "
+
+      >
+
+        ⬅ Volver al Dashboard
+
+      </button>
+
+
+
 
 
       <h1
@@ -62,11 +96,12 @@ export default function Squad({ game }: Props) {
 
 
 
+
+
       {
         squad.length === 0
 
         ?
-
 
         <p className="text-zinc-400">
 
@@ -77,7 +112,6 @@ export default function Squad({ game }: Props) {
 
         :
 
-
         <div>
 
 
@@ -87,6 +121,7 @@ export default function Squad({ game }: Props) {
 
             <div
               key={player.id}
+
               className="
               bg-zinc-900
               rounded-2xl
@@ -109,6 +144,8 @@ export default function Squad({ game }: Props) {
 
 
 
+
+
               <div
                 className="
                 text-zinc-400
@@ -120,36 +157,55 @@ export default function Squad({ game }: Props) {
 
 
                 <p>
+
                   Posición: {player.position}
+
                 </p>
 
 
+
                 <p>
+
                   Edad: {player.age}
+
                 </p>
 
 
+
                 <p>
+
                   Pie: {player.foot}
+
                 </p>
 
 
+
                 <p>
+
                   Media: ⭐ {player.overall}
+
                 </p>
 
 
+
                 <p>
+
                   Potencial: 📈 {player.potential}
+
                 </p>
+
 
 
                 <p>
+
                   Valor: ${player.value.toLocaleString()}
+
                 </p>
+
 
 
               </div>
+
 
 
             </div>

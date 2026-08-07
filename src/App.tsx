@@ -10,7 +10,9 @@ import {
 import {
   generateLeagueSchedule
 } from "./engine/leagueEngine";
-
+import {
+ initializePlayerDatabase
+} from "./engine/playerDatabase";
 
 import {
   clubs,
@@ -150,7 +152,12 @@ function App(){
 
 
 
-
+initializePlayerDatabase(
+  leagueTeams.map(
+    team => team.name
+  ),
+  "Primera Divisional C"
+);
 
 
 
@@ -402,11 +409,9 @@ function App(){
 
   if(page==="dashboard"){
 
+  return (
 
-
-    return (
-
-      <Dashboard
+    <Dashboard
 
       game={game}
 
@@ -414,16 +419,14 @@ function App(){
 
       setPage={setPage}
 
-      />
+    />
 
-    );
-
+  );
 
   }
 
 
-  if(page==="squad"){
-
+    if(page==="squad"){
 
     return (
 
@@ -431,12 +434,13 @@ function App(){
 
         game={game}
 
+        setPage={setPage}
+
       />
 
     );
 
-
-  }
+    }
 
 
 

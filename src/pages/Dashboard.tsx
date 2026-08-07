@@ -15,7 +15,6 @@ import {
 
 
 
-
 type Props = {
 
   game: GameState;
@@ -36,14 +35,13 @@ type Props = {
 
 
 
-
 export default function Dashboard({
 
-  game,
+ game,
 
-  setGame,
+ setGame,
 
-  setPage
+ setPage
 
 }: Props) {
 
