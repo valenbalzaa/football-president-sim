@@ -24,8 +24,11 @@ type Props = {
     React.SetStateAction<GameState>
   >;
 
-};
+  setPage: React.Dispatch<
+    React.SetStateAction<string>
+  >;
 
+};
 
 
 
@@ -38,7 +41,9 @@ export default function Dashboard({
 
   game,
 
-  setGame
+  setGame,
+
+  setPage
 
 }: Props) {
 
@@ -1126,6 +1131,16 @@ gap-4
 <button
 
 key={item}
+
+onClick={() => {
+
+if(item === "👥 Plantilla"){
+
+setPage("squad");
+
+}
+
+}}
 
 className="
 bg-zinc-900

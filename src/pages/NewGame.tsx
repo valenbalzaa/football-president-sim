@@ -4,7 +4,9 @@ import { clubs } from "../data/clubs";
 
 import KitSelector from "../components/KitSelector";
 import ColorPicker from "../components/ColorPicker";
-
+import {
+ generateInitialSquad
+} from "../engine/playerEngine";
 
 
 type Props = {
@@ -17,7 +19,8 @@ type Props = {
     customClub?: boolean,
     kitId?: number,
     primaryColor?: string,
-    secondaryColor?: string
+    secondaryColor?: string,
+    squad?: any[]
   ) => void;
 };
 
@@ -514,7 +517,11 @@ export default function NewGame({ onStart }: Props) {
 
               primaryColor,
 
-              secondaryColor
+              secondaryColor,
+
+              generateInitialSquad(
+                "Primera Divisional C"
+              )
 
             );
 
@@ -540,11 +547,25 @@ export default function NewGame({ onStart }: Props) {
 
             clubData?.budget || 0,
 
-            "",
+            clubData?.stadium || "",
 
             "",
 
-            false
+            false,
+
+            undefined,
+
+            undefined,
+
+            undefined,
+
+            generateInitialSquad(
+
+              clubData?.division ||
+
+              "Primera Divisional C"
+
+            )
 
           );
 

@@ -225,7 +225,7 @@ export const initialGameState:GameState = {
 
 
 
-  squad:[],
+  squad: [] as Player[],
 
 
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import Squad from "./pages/Squad";
 import Home from "./pages/Home";
 import NewGame from "./pages/NewGame";
 import Dashboard from "./pages/Dashboard";
@@ -22,6 +22,7 @@ import {
   initialGameState,
   type GameState
 } from "./store/gameStore";
+
 
 
 
@@ -407,12 +408,11 @@ function App(){
 
       <Dashboard
 
+      game={game}
 
-        game={game}
+      setGame={setGame}
 
-
-        setGame={setGame}
-
+      setPage={setPage}
 
       />
 
@@ -422,7 +422,21 @@ function App(){
   }
 
 
+  if(page==="squad"){
 
+
+    return (
+
+      <Squad
+
+        game={game}
+
+      />
+
+    );
+
+
+  }
 
 
 

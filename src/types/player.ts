@@ -1,28 +1,31 @@
-export type Player = {
-  id: number;
+export interface Player {
 
-  name: string;
+ id:number;
 
-  age: number;
+ name:string;
 
-  position:
-    | "POR"
-    | "DEF"
-    | "MED"
-    | "DEL";
+ club:string;
 
-  overall: number;
+ league:string;
 
-  potential: number;
+ position:string;
 
-  salary: number;
+ age:number;
 
-  morale: number;
+ height:number;
 
-  status:
-    | "happy"
-    | "normal"
-    | "angry"
-    | "injured";
-};
+ foot:string;
 
+ overall:number;
+
+ potential:number;
+
+ value:number;
+
+ salary:number;
+
+ morale:number;
+
+ fitness:number;
+
+}
